@@ -25,8 +25,18 @@
 			'header'=>'Assunto',
 			'htmlOptions'=>array('style'=>'width: 55%'),
 		),
-		'DataCriacao',
-		'DataDocumento',
+		array(
+			'name'=>'DataCriacao',
+			'value'=>'date("d/m/Y",strtotime($data->DataCriacao))',
+			'type'=>'text',
+			'header'=>'Data da criação',
+		),
+		array(
+			'name'=>'DataDocumento',
+			'value'=>'date("d/m/Y",strtotime($data->DataDocumento))',
+			'type'=>'text',
+			'header'=>'Data do documento',
+		),
 		
 		array(
 			'class'=>'CButtonColumn',

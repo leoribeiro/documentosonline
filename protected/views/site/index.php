@@ -40,7 +40,7 @@
 			'name'=>'DataDocumento',
 			'value'=>'date("d/m/Y",strtotime($data->DataDocumento))',
 			'type'=>'text',
-			'header'=>'Data',
+			'header'=>'Data do documento',
 		),
 		
 		array(
