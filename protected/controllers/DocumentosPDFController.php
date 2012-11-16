@@ -153,7 +153,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Ln(10);
 		$this->PDF->SetFont("Arial", "B", 12 ,"UTF-8");
 		$this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assunto) , 0, 'J', false);
+		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',"Assunto: ".$assunto) , 0, 'J', false);
 
 	}
 
