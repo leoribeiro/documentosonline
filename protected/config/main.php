@@ -70,7 +70,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=ntiaplicacoes',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => 'n2t0i11',
 			'charset' => 'utf8',
 		),
 		
