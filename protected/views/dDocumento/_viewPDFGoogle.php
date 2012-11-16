@@ -10,7 +10,7 @@
 		$urlServer = "http://sistemas.timoteo.cefetmg.br";
 		$nomeArquivo = $urlServer.Yii::app()->baseUrl."/pdfs/".$tempoArq.".pdf";
 		?>
-		<iframe src="http://docs.google.com/gview?url="<?php echo $nomeArquivo; ?>"&embedded=true" style="width:80%; height:500px;" frameborder="0" ></iframe>
+		<iframe src="http://docs.google.com/gview?url=<?php echo $nomeArquivo; ?>&embedded=true" style="width:80%; height:500px;" frameborder="0" ></iframe>
 
 		<?php
 		}
