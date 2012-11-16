@@ -70,6 +70,16 @@ class DDocumentoController extends Controller
 	public function actionCreateSave(){
 
 		$model = Yii::app()->session['modelDocumento'];
+		unset(Yii::app()->session['modelDocumento']);
+		
+
+		$tempoArq = Yii::app()->session['tempoArq'];
+		unset(Yii::app()->session['tempoArq']);
+
+		$nomeArquivo = "pdfs/".$tempoArq.".pdf";
+
+		// deleta o arquivo.
+		unlink($nomeArquivo);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('CDModeloDocumento',$model->ModeloDocumento_CDModeloDocumento);
@@ -226,6 +236,12 @@ class DDocumentoController extends Controller
 	 */
 	public function actionAdmin()
 	{
+
+		if(isset($_GET['success'])) {
+
+			Yii::app()->user->setFlash('success', 'Documento oficial criado com sucesso!');
+
+		}
 
 		// para tamanho da página selecionada no gridview	
 		if (isset($_GET['pageSize'])) {

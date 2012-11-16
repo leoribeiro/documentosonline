@@ -137,6 +137,8 @@ class DDocumento extends CActiveRecord
 
 		$criteria->compare('ModeloDocumento_CDModeloDocumento',$this->ModeloDocumento_CDModeloDocumento);
 
+		$criteria->order = 'CDDocumento DESC';
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

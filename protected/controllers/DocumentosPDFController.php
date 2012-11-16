@@ -183,7 +183,8 @@ class DocumentosPDFController extends Controller
 	    	$assinatura = $modelServ->Assinatura;
 	    }  
 	    else{
-			$criteria->compare('Servidor_CDServidor',$idServidor);
+	    	$criteria = new CDbCriteria;
+			$criteria->compare('CDServidor',$idServidor);
 	    	$modelServ = Servidor::model()->find($criteria);
 	    	$assinatura = $modelServ->NMServidor;
 	    }

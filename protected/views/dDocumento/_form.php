@@ -10,12 +10,8 @@
 	'id'=>'ddocumento-form',
 	'htmlOptions'=>array('class'=>'well'),
 	'type'=>'form-horizontal',
-	'enableAjaxValidation'=>true,
-        'clientOptions' => array(
-      		//'validateOnSubmit'=>true,
-      		'validateOnChange'=>true,
-      		'validateOnType'=>false,
-    	),
+	'enableAjaxValidation'=>false,
+
 )); ?>
 
 
