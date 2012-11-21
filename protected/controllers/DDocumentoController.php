@@ -120,8 +120,10 @@ class DDocumentoController extends Controller
 
 			if($model->save()){
 
+				Yii::app()->user->setFlash('success', '<strong>Pronto!</strong> Informações atualizadas!');
+
 				$this->render('//dadosUsuario/createAssin',array(
-				'model'=>$model,'success'=>'true',
+				'model'=>$model,
 				));
 			}
 			else{
