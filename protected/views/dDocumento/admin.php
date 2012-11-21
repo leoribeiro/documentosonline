@@ -24,9 +24,11 @@
 	'type'=>'striped bordered condensed',
 	'dataProvider'=>$model->search('resp'),
 	'filter'=>$model,
+	'afterAjaxUpdate' => 'reinstallDatePicker',
+	'enableSorting'=>false,
 	'columns'=>array(
 		array(
-			'name'=>'CDDocumento',
+			'name'=>'nomeDocumento',
 			'value'=>'$data->numeroDocumento($data->CDDocumento)',
 			'type'=>'text',
 			'header'=>'Documento',
@@ -43,12 +45,50 @@
 			'value'=>'date("d/m/Y",strtotime($data->DataCriacao))',
 			'type'=>'text',
 			'header'=>'Data da criação',
+			'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                    'model'=>$model,
+                    'attribute'=>'DataCriacao',
+                    'language'=>'pt-BR',
+					'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', // (#2)
+		            'htmlOptions' => array(
+                      'id' => 'datepicker_for_due_date',
+                      'size' => '10',
+                    ),
+					'defaultOptions' => array(  // (#3)
+	                    'showOn' => 'focus', 
+	                    'dateFormat' => 'dd/mm/yy',
+	                    'showOtherMonths' => true,
+	                    'selectOtherMonths' => true,
+	                    'changeMonth' => true,
+	                    'changeYear' => true,
+	                    'showButtonPanel' => true,
+	                )
+	           ), true),
 		),
 		array(
 			'name'=>'DataDocumento',
 			'value'=>'date("d/m/Y",strtotime($data->DataDocumento))',
 			'type'=>'text',
 			'header'=>'Data do documento',
+			'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                    'model'=>$model,
+                    'attribute'=>'DataDocumento',
+                    'language'=>'pt-BR',
+					'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', // (#2)
+		            'htmlOptions' => array(
+                      'id' => 'datepicker_for_due_date2',
+                      'size' => '10',
+                    ),
+					'defaultOptions' => array(  // (#3)
+	                    'showOn' => 'focus', 
+	                    'dateFormat' => 'dd/mm/yy',
+	                    'showOtherMonths' => true,
+	                    'selectOtherMonths' => true,
+	                    'changeMonth' => true,
+	                    'changeYear' => true,
+	                    'showButtonPanel' => true,
+	                )
+	           ), true),
 		),
 		
 		array(
@@ -69,4 +109,13 @@
 				),
 		),
 	),
-)); ?>
+)); 
+
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {
+    $('#datepicker_for_due_date').datepicker();
+    $('#datepicker_for_due_date2').datepicker();
+}
+");
+
+?>

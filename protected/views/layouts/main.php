@@ -25,7 +25,7 @@
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo"><?php echo CHtml::image($this->createUrl('/images/DocumentosOnline.png'),'Sistema de Controle de Cocumentos',array('title'=>'Sistema de Controle de Cocumentos')); ?></div>
+		<div id="logo"><?php echo CHtml::image($this->createUrl('/images/DocumentosOnline.png'),'Sistema de Controle de Cocumentos',array('title'=>'Sistema de Controle de Documentos')); ?></div>
 		<div id="subtitle">
 			<?php echo CHtml::image($this->createUrl('/images/cefet.jpg'),'CEFET-MG Campus Timóteo',array('title'=>'CEFET-MG Campus Timóteo')); ?>
 		</div>

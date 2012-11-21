@@ -21,6 +21,9 @@ class DDocumento extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return DDocumento the static model class
 	 */
+	public $servidorNMServidor;
+	public $nomeDocumento;
+
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -47,7 +50,7 @@ class DDocumento extends CActiveRecord
 			array('DataDocumento', 'date','format'=>'dd/MM/yyyy'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('CDDocumento, Assunto, Corpo, DataCriacao, DataDocumento, ModeloDocumento_CDModeloDocumento', 'safe', 'on'=>'search'),
+			array('CDDocumento, Assunto, Corpo, DataCriacao, DataDocumento, ModeloDocumento_CDModeloDocumento,servidorNMServidor,nomeDocumento', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -93,6 +96,41 @@ class DDocumento extends CActiveRecord
 		
 
 		$criteria=new CDbCriteria;
+
+		$criteria->with = array('relServidor','relModeloDocumento');
+
+		$criteria->together = true;
+
+		$criteria->compare('relServidor.NMServidor',$this->servidorNMServidor,true);
+
+
+		// Código para tratar nomes dos documentos
+		// precisa ser melhorado
+		// você tem sugestões?
+		// tempo tá curto
+		$nomeDocumento = explode("-",$this->nomeDocumento);
+		foreach($nomeDocumento as $nome){
+			if(preg_match("/^[a-zA-Z' ']+$/",$nome)){
+				$criteria->compare('relModeloDocumento.NMSiglaDocumento',
+		$nome,true);
+			}
+			else if(preg_match("/^[0-9]+$/",$nome)){
+				$criteria->compare('NumeroDocumento',$nome,true);
+			}
+			else{
+				$nomeAno = explode("/",$nome);
+				if(sizeof($nomeAno) > 1){
+					
+						if(preg_match("/^[0-9]+$/",$nomeAno[0])){
+							$criteria->compare('NumeroDocumento',$nomeAno[0],true);
+						}
+						if(preg_match("/^[0-9]+$/",$nomeAno[1])){
+							$criteria->compare('Ano',$nomeAno[1],true);
+						}
+				}
+			}
+		}
+
 
 		$criteria->compare('CDDocumento',$this->CDDocumento);
 		$criteria->compare('Assunto',$this->Assunto,true);
