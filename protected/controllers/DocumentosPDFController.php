@@ -146,6 +146,17 @@ class DocumentosPDFController extends Controller
 	}
 
 
+	public function paraDoc($model){
+
+		$para = $model->Para;
+
+		$this->PDF->Ln(10);
+		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
+		$this->PDF->SetFillColor(255,255,255);
+		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$para) , 0, 'J', false);
+
+	}
+
 	public function assuntoDoc($model){
 
 		$assunto = $model->Assunto;
@@ -190,7 +201,7 @@ class DocumentosPDFController extends Controller
 	    }
 	    //$assinatura = "<div align=\"center\">".$modelServ->Assinatura."</div>";
 	    $this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assinatura) , 0, 'C', false);
+		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assinatura) , 0, 'R', false);
 
 	}
 	
@@ -230,6 +241,8 @@ class DocumentosPDFController extends Controller
 
 
 		$this->localdataDocumento($model);
+
+		$this->paraDoc($model);
 
 		$this->assuntoDoc($model);
 

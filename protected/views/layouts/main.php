@@ -46,7 +46,7 @@
 	    'type'=>'tabs', // '', 'tabs', 'pills' (or 'list')
 	    'stacked'=>false, // whether this is a stacked menu
 	    'items'=>array(
-	        array('label'=>'Home', 'url'=>array('/Site/index'),'visible'=>!$isGuest),
+	        array('label'=>'Início', 'url'=>array('/Site/index'),'visible'=>!$isGuest),
 	        array('label'=>'Novo documento', 'url'=>array('/dDocumento/create'),'visible'=>($isUserPriv)),
 	        array('label'=>'Meus documentos', 'url'=>array('/dDocumento/admin'),'visible'=>($isUserPriv)),
 	        array('label'=>'Minha assinatura', 'url'=>array('/dDocumento/createAssin'),'visible'=>($isUserPriv)),

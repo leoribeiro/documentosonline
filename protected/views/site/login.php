@@ -1,5 +1,5 @@
 
-<div id="titlePages">Login</div>
+<div id="titlePages">Autenticação</div>
 <?php
 
 	Yii::app()->user->setFlash('info', '<div id="containerL"><div id="primaryL">'.CHtml::image($this->createUrl("images/serv-login.png"),'').'</div><div id="contentL"><h4>Servidores Autorizados</h4> <br />Digitar como login a sua conta de e-mail seguido do caractere "underscore" e do grupo a que pertence.  Por exemplo, o usuario fulano@timoteo.cefetmg.br digitará como login fulano_timoteo e utilizará a senha do e-mail do CEFET-MG.   

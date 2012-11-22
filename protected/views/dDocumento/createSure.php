@@ -1,5 +1,5 @@
 <div id="titlePages">
-		Visualização do documento gerado
+		Pré-visualização
 </div>
 
 <?php echo $this->renderPartial('//dDocumento/_viewPDFGoogle'); ?>
@@ -20,7 +20,7 @@ function goBack()
     'label'=>'Alterar informações',
     'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'large', // null, 'large', 'small' or 'mini'
-    'url'=>'javascript:goBack()',
+    'url'=>$this->createUrl('/dDocumento/create',array('edit'=>'true')),
 )); ?>
 
 <?php $this->widget('bootstrap.widgets.TbButton', array(

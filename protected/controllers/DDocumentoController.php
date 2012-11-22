@@ -153,6 +153,10 @@ class DDocumentoController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+		if(isset($_GET['edit'])){
+			$model = Yii::app()->session['modelDocumento'];
+		}
+
 		$criteria = new CDbCriteria();
 		$criteria->compare('Servidor_CDServidor',Yii::app()->user->CDServidor);
 		$dserv = DServidor::model()->find($criteria);
