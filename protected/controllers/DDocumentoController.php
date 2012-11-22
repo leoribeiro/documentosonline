@@ -156,6 +156,9 @@ class DDocumentoController extends Controller
 		if(isset($_GET['edit'])){
 			$model = Yii::app()->session['modelDocumento'];
 		}
+		else{
+			array_map('unlink', glob("pdfs/*.pdf"));
+		}
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('Servidor_CDServidor',Yii::app()->user->CDServidor);
