@@ -146,7 +146,7 @@ class DDocumento extends CActiveRecord
 
 			$criteriaS = new CDbCriteria();
 			$criteriaS->compare('Responsavel',$servidor);
-			$modelRD = DResponsavelDOcumento::model()->findAll($criteriaS);
+			$modelRD = DResponsavelDocumento::model()->findAll($criteriaS);
 			$iDRD = array();
 			foreach($modelRD as $modelr){
 				$iDRD[] = $modelr->ModeloDocumento;
