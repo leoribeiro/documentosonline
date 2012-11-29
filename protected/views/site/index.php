@@ -1,5 +1,5 @@
 <div id="titlePages">
-	Documentos oficiais do campus
+	Documentos Oficiais
 </div>
 
 <?php 

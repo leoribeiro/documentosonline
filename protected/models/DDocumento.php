@@ -136,9 +136,23 @@ class DDocumento extends CActiveRecord
 		$criteria->compare('Assunto',$this->Assunto,true);
 		$criteria->compare('Corpo',$this->Corpo,true);
 
+		$isAdmin = (Yii::app()->user->name == "admin");
 		if(!empty($parametros) && $parametros[0] == 'resp'){
 			$servidor = Yii::app()->user->CDServidor;
 			$criteria->compare('Servidor_CDServidor',$servidor);
+		}
+		else if(!$isAdmin){
+			$servidor = Yii::app()->user->CDServidor;
+
+			$criteriaS = new CDbCriteria();
+			$criteriaS->compare('Responsavel',$servidor);
+			$modelRD = DResponsavelDOcumento::model()->findAll($criteriaS);
+			$iDRD = array();
+			foreach($modelRD as $modelr){
+				$iDRD[] = $modelr->ModeloDocumento;
+			}
+
+			$criteria->addInCondition('relModeloDocumento.CDModeloDocumento',$iDRD);
 		}
 
 		if($this->DataCriacao != ''){
