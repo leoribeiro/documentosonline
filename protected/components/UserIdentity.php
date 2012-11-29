@@ -77,13 +77,15 @@ class UserIdentity extends CUserIdentity
 						if(empty($roles)){
 							$roles[] = 'visualizacao';
 						}
+						else{
+							// setando as regras do usuario
+							$this->setState('roles', $roles); 
 
-						// setando as regras do usuario
-						$this->setState('roles', $roles); 
+							$this->setState('CDServidor', $servidor->CDServidor);
+							$this->errorCode = self::ERROR_NONE;
+						} 
 
-						$this->setState('CDServidor', $servidor->CDServidor); 
-
-						$this->errorCode = self::ERROR_NONE;
+						
 				}
 
 			}
