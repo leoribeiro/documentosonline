@@ -21,7 +21,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
-		'RecursosHumanos.models.Servidor',
+		'RecursosHumanos.models.*',
 		'application.extensions.CAdvancedArBehavior',
 	),
 
