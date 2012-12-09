@@ -55,15 +55,15 @@ class DocumentosPDFController extends Controller
 		$brasao = YiiBase::getPathOfAlias('webroot')."/images/brasao.jpg";
 		
 
-		$this->PDF->Image($brasao,101,7,17.29,18.7);
+		$this->PDF->Image($brasao,99,7,17.29,18.7);
 		
 		$this->PDF->Ln(17);
 		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1','SERVIÇO PÚBLICO FEDERAL'),0, 1, 'C');
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1','MINISTÉRIO DA EDUCAÇÃO'),0, 1, 'C');
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1','CENTRO FEDERAL DE EDUCAÇÃO TECNOLÓGIA DE MINAS GERAIS'),0, 1, 'C');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','SERVIÇO PÚBLICO FEDERAL'),0, 1, 'C');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','MINISTÉRIO DA EDUCAÇÃO'),0, 1, 'C');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','CENTRO FEDERAL DE EDUCAÇÃO TECNOLÓGIA DE MINAS GERAIS'),0, 1, 'C');
 		//$PDF->Cell(200, 5,iconv('utf-8','iso-8859-1','Autorização de Funcionamento - Portaria 2.026 de 28/12/2006 DOU de 29/12/2006'),'LR', 1, 'C');
-		$this->PDF->Cell(190, 5, iconv('utf-8','iso-8859-1','CAMPUS TIMÓTEO') , 0, 1, 'C');
+		$this->PDF->Cell(183, 5, iconv('utf-8','iso-8859-1','CAMPUS TIMÓTEO') , 0, 1, 'C');
 		
 
 	}
@@ -79,7 +79,7 @@ class DocumentosPDFController extends Controller
 
 		$this->PDF->Ln(9);
 		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1',$modelModeloDoc->NMSiglaDocumento."-".$numeracao."/".date("Y")),0, 1, 'L');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1',$modelModeloDoc->NMSiglaDocumento."-".$numeracao."/".date("Y")),0, 1, 'L');
 
 		return ($modelModeloDoc->NMSiglaDocumento."-".$numeracao."-".date("Y"));
 
@@ -96,7 +96,7 @@ class DocumentosPDFController extends Controller
 
 		$this->PDF->Ln(9);
 		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1',$modelModeloDoc->NMSiglaDocumento."-".$numeracao."/".$model->Ano),0, 1, 'L');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1',$modelModeloDoc->NMSiglaDocumento."-".$numeracao."/".$model->Ano),0, 1, 'L');
 
 		return ($modelModeloDoc->NMSiglaDocumento."-".$numeracao."-".$model->Ano);
 
@@ -141,7 +141,7 @@ class DocumentosPDFController extends Controller
 
 		$this->PDF->Ln(7);
 		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
-		$this->PDF->Cell(190, 5,iconv('utf-8','iso-8859-1//TRANSLIT',$localDoc.", ".$dataDoc."."),0, 1, 'R');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1//TRANSLIT',$localDoc.", ".$dataDoc."."),0, 1, 'R');
 
 	}
 
@@ -153,7 +153,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Ln(10);
 		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
 		$this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$para) , 0, 'J', false);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$para) , 0, 'J', false);
 
 	}
 
@@ -164,7 +164,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Ln(10);
 		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
 		$this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',"Assunto: ".$assunto) , 0, 'J', false);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',"Assunto: ".$assunto) , 0, 'J', false);
 
 	}
 
@@ -175,7 +175,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Ln(15);
 		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
 		$this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$corpo) , 0, 'J', false);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$corpo) , 0, 'J', false);
 
 	}
 
@@ -201,7 +201,7 @@ class DocumentosPDFController extends Controller
 	    }
 	    //$assinatura = "<div align=\"center\">".$modelServ->Assinatura."</div>";
 	    $this->PDF->SetFillColor(255,255,255);
-		$this->PDF->MultiCell(190, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assinatura) , 0, 'R', false);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assinatura) , 0, 'R', false);
 
 	}
 	
