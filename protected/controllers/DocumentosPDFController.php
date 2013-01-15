@@ -61,7 +61,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
 		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','SERVIÇO PÚBLICO FEDERAL'),0, 1, 'C');
 		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','MINISTÉRIO DA EDUCAÇÃO'),0, 1, 'C');
-		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','CENTRO FEDERAL DE EDUCAÇÃO TECNOLÓGIA DE MINAS GERAIS'),0, 1, 'C');
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','CENTRO FEDERAL DE EDUCAÇÃO TECNOLÓGICA DE MINAS GERAIS'),0, 1, 'C');
 		//$PDF->Cell(200, 5,iconv('utf-8','iso-8859-1','Autorização de Funcionamento - Portaria 2.026 de 28/12/2006 DOU de 29/12/2006'),'LR', 1, 'C');
 		$this->PDF->Cell(183, 5, iconv('utf-8','iso-8859-1','CAMPUS TIMÓTEO') , 0, 1, 'C');
 		
