@@ -93,7 +93,7 @@
 		
 		array(
 			'class'=>'CButtonColumn',
-				'template'=>'{geraPDF}',
+				'template'=>'{geraPDF} {update}',
 				'header'=>CHtml::dropDownList('pageSize',$pageSize,array(10=>10,20=>20,50=>50,100=>100),
 			      array(
 			           'onchange'=>"$.fn.yiiGridView.update('requerimentos-grid',{ data:{pageSize: $(this).val() }})",
@@ -105,6 +105,11 @@
 							'url'=> 'Yii::app()->createUrl("DocumentosPDF/geraPDF", array("idReq" => $data->CDDocumento))',
 							'imageUrl'=>Yii::app()->request->baseUrl
 							.'/images/pdf.png',
+				),
+				'update' => array(
+				            'label'=>'Editar Documento',
+							'url'=> 'Yii::app()->createUrl("DDocumento/create", array("id" => $data->CDDocumento))',
+							'visible'=>'(date("Y-m-d", strtotime($data->DataCriacao)) == date("Y-m-d"))',
 				),
 				),
 		),

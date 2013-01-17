@@ -25,7 +25,16 @@
     	<?php //echo $form->labelEx($model,'ModeloDocumento_CDModeloDocumento'); ?>
     	<?php
     		$criteria = new CDbCriteria();
-    		$criteria->compare('Responsavel',Yii::app()->user->CDServidor);
+    		if(empty($model->Servidor_CDServidor)){
+    			$criteria->compare('Responsavel',Yii::app()->user->CDServidor);
+    		}
+    		else{
+    			$criteria->compare('Responsavel',$model->Servidor_CDServidor);
+    			$Data = $model->DataDocumento;
+				$ar = explode('-', $Data);
+				$model->DataDocumento = $ar[2].'/'.$ar[1].'/'.$ar[0];
+    		}
+    		
     		$modelos = DResponsavelDocumento::model()->findAll($criteria);
 
     		$idsModelo = array();

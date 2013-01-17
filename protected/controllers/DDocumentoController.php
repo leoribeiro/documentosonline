@@ -150,6 +150,14 @@ class DDocumentoController extends Controller
 		$model=new DDocumento;
 
 
+		if(isset($_GET['id'])){
+			$id = $_GET['id'];
+			$criteria = new CDbCriteria();
+			$criteria->compare('CDDocumento',$id);
+			$model = DDocumento::model()->find($criteria);
+		}
+
+
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
@@ -160,9 +168,12 @@ class DDocumentoController extends Controller
 			array_map('unlink', glob("pdfs/*.pdf"));
 		}
 
-		$criteria = new CDbCriteria();
-		$criteria->compare('Servidor_CDServidor',Yii::app()->user->CDServidor);
-		$dserv = DServidor::model()->find($criteria);
+		$dserv = "";
+		if(isset(Yii::app()->user->CDServidor)){
+			$criteria = new CDbCriteria();
+			$criteria->compare('Servidor_CDServidor',Yii::app()->user->CDServidor);
+			$dserv = DServidor::model()->find($criteria);
+		}	
 
 		if(is_null($dserv)) {
 
