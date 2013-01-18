@@ -3,6 +3,14 @@
 </div>
 
 <?php 
+	function subDayIntoDate($date,$days) {
+     $thisyear = substr ( $date, 0, 4 );
+     $thismonth = substr ( $date, 4, 2 );
+     $thisday =  substr ( $date, 6, 2 );
+     $nextdate = mktime ( 0, 0, 0, $thismonth, $thisday - $days, $thisyear );
+     //return strftime("%Y%m%d", $nextdate);
+     return $nextdate;
+	}
 	
 	$pageSize=Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']);
 	$this->widget('bootstrap.widgets.TbGridView', array(
@@ -108,7 +116,7 @@
 				'update' => array(
 				            'label'=>'Editar Documento',
 							'url'=> 'Yii::app()->createUrl("DDocumento/create", array("id" => $data->CDDocumento))',
-							'visible'=>'(date("Y-m-d", strtotime($data->DataCriacao)) == date("Y-m-d"))',
+							'visible'=>'((strtotime($data->DataCriacao) > subDayIntoDate(date("Ymd"),1)))',
 				),
 				),
 		),
