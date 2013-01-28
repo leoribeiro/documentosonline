@@ -12,8 +12,11 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 require_once($yii);
 
 $projetoRH = 'ProjetoRH';
+$projetoReq = 'ProjetoRequerimentos';
+$projetoMarc = 'ProjetoMarcacao';
 
 Yii::setPathOfAlias('RecursosHumanos','../'.$projetoRH.'/protected');
-
+Yii::setPathOfAlias('Requerimentos','../'.$projetoReq.'/protected');
+Yii::setPathOfAlias('MarcacaoProva','../'.$projetoMarc.'/protected');
 
 Yii::createWebApplication($config)->run();

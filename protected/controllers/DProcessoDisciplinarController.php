@@ -32,11 +32,11 @@ class DProcessoDisciplinarController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','admin','adminProcessos','updateProcessoComissao','updateProcesso','updateProcessoDiretor'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -70,8 +70,16 @@ class DProcessoDisciplinarController extends Controller
 		if(isset($_POST['DProcessoDisciplinar']))
 		{
 			$model->attributes=$_POST['DProcessoDisciplinar'];
+			$model->ServidorProcesso = Yii::app()->user->CDServidor;
+
+			if($model->DataOcorrencia != ''){
+				$Data = $model->DataOcorrencia;
+				$ar = explode('/', $Data);
+				$model->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];
+			}
+
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->CDProcessoDisciplinar));
+				$this->redirect(array('admin','success'=>true));
 		}
 
 		$this->render('create',array(
@@ -94,11 +102,107 @@ class DProcessoDisciplinarController extends Controller
 		if(isset($_POST['DProcessoDisciplinar']))
 		{
 			$model->attributes=$_POST['DProcessoDisciplinar'];
+			$model->DataCriacao = new CDbExpression('NOW()');
+
+			if($model->DataOcorrencia != ''){
+				$Data = $model->DataOcorrencia;
+				$ar = explode('/', $Data);
+				$model->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];
+			}
+
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->CDProcessoDisciplinar));
-		}
+				$this->redirect(array('admin','success'=>true));		}
 
 		$this->render('update',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionUpdateProcesso($id)
+	{
+
+		$isDirector = false;
+		if(Yii::app()->user->checkAccess('ServidorDiretor')){
+			$isDirector = true;
+		}
+		$isComissao = false;
+		if(Yii::app()->user->checkAccess('ServidorComissao')){
+			$isComissao = true;
+		}
+
+		if($isComissao){
+			$this->redirect(array('UpdateProcessoComissao','id'=>$id));
+		}
+		if($isDirector){
+			$this->redirect(array('UpdateProcessoDiretor','id'=>$id));
+		}
+
+	}
+
+	public function actionUpdateProcessoDiretor($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['DProcessoDisciplinar']))
+		{
+			$model->attributes=$_POST['DProcessoDisciplinar'];
+			
+			$model->DataDiretor = new CDbExpression('NOW()');
+
+			$modelConf = DConfProcessoDisciplinar::model()->find();
+			$model->ServidorDiretor = $modelConf->Servidor_Diretor;
+
+			if(empty($model->ParecerDiretor) or empty($model->DescricaoParecer)){
+				if(empty($model->ParecerDiretor))
+					$model->addError('ParecerDiretor','Selecione alguma sansão.');
+				if(empty($model->DescricaoParecer))
+					$model->addError('DescricaoParecer','O parecer deve ser preenchido.');
+			}
+			else{
+				if($model->save())
+					$this->redirect(array('admin','success2'=>true));
+			}
+					
+		}
+
+		$this->render('updateComissaoDiretor',array(
+			'model'=>$model,
+		));
+	}
+
+
+	public function actionUpdateProcessoComissao($id)
+	{
+		$model=$this->loadModel($id);
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['DProcessoDisciplinar']))
+		{
+			$model->attributes=$_POST['DProcessoDisciplinar'];
+			
+			$model->DataComissao = new CDbExpression('NOW()');
+			$modelConf = DConfProcessoDisciplinar::model()->find();
+			$model->ServidorDiretor = $modelConf->Servidor_Comissao;
+			
+			if(empty($model->SansaoAplicavel) or empty($model->ParecerComissao)){
+				if(empty($model->SansaoAplicavel))
+					$model->addError('SansaoAplicavel','Selecione alguma sansão.');
+				if(empty($model->ParecerComissao))
+					$model->addError('ParecerComissao','O parecer deve ser preenchido.');
+			}
+			else{
+				if($model->save())
+					$this->redirect(array('admin','success3'=>true));
+			}
+					
+		}
+
+		$this->render('updateComissaoDiretor',array(
 			'model'=>$model,
 		));
 	}
@@ -133,12 +237,57 @@ class DProcessoDisciplinarController extends Controller
 	 */
 	public function actionAdmin()
 	{
+		if(isset($_GET['success'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar aberto com sucesso!');
+
+		}
+		if(isset($_GET['success2'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar atualizado com sucesso!');
+
+		}
+		if(isset($_GET['success3'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar concluído com sucesso!');
+
+		}
+		
 		$model=new DProcessoDisciplinar('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['DProcessoDisciplinar']))
 			$model->attributes=$_GET['DProcessoDisciplinar'];
 
 		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionAdminProcessos()
+	{
+		if(isset($_GET['success'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar aberto com sucesso!');
+
+		}
+		if(isset($_GET['success2'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar atualizado com sucesso!');
+
+		}
+		if(isset($_GET['success3'])) {
+
+			Yii::app()->user->setFlash('success', 'Processo disciplinar concluído com sucesso!');
+
+		}
+
+		
+		$model=new DProcessoDisciplinar('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['DProcessoDisciplinar']))
+			$model->attributes=$_GET['DProcessoDisciplinar'];
+
+		$this->render('adminProcessos',array(
 			'model'=>$model,
 		));
 	}

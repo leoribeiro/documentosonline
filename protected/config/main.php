@@ -22,6 +22,14 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'RecursosHumanos.models.*',
+		
+		'Requerimentos.models.Aluno',
+		'Requerimentos.models.AlunoTecnico',
+		'Requerimentos.models.AlunoGraduacao',
+		'Requerimentos.models.CursoGraduacao',
+		'Requerimentos.models.CursoTecnico',
+		'MarcacaoProva.models.Turma',
+
 		'application.extensions.CAdvancedArBehavior',
 	),
 

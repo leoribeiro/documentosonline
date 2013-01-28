@@ -50,6 +50,48 @@ class UserIdentity extends CUserIdentity
 		return $rules;
 	}
 
+	public function getPDDiretor($servidor){
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('Servidor_Diretor',$servidor->CDServidor);
+		$model = DConfProcessoDisciplinar::model()->find($criteria);
+
+		if(!is_null($model)){
+			return 'ServidorDiretor';
+		}
+
+		return null;
+
+	}
+
+	public function getAutorizadosPD($servidor){
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('CDServidor',$servidor->CDServidor);
+		$model = DResponsavelProcDisciplinar::model()->find($criteria);
+
+		if(!is_null($model)){
+			return 'ServidorPD';
+		}
+
+		return null;
+
+	}
+
+	public function getPDComissao($servidor){
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('Servidor_Comissao',$servidor->CDServidor);
+		$model = DConfProcessoDisciplinar::model()->find($criteria);
+
+		if(!is_null($model)){
+			return 'ServidorComissao';
+		}
+
+		return null;
+
+	}
+
 	public function authenticate()
 	{
 		$this->errorCode = self::ERROR_PASSWORD_INVALID;
@@ -73,6 +115,19 @@ class UserIdentity extends CUserIdentity
 				if($boolServidor && ($servidor != null)){
 
 						$roles = $this->getRules($servidor);
+
+
+						if(!is_null($this->getPDDiretor($servidor))){
+							$roles[] = $this->getPDDiretor($servidor);
+						}
+
+						if(!is_null($this->getPDComissao($servidor))){
+							$roles[] = $this->getPDComissao($servidor);
+						}
+
+						if(!is_null($this->getAutorizadosPD($servidor))){
+							$roles[] = $this->getAutorizadosPD($servidor);
+						}
 
 						if(empty($roles)){
 							$roles[] = 'visualizacao';

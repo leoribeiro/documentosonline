@@ -12,8 +12,10 @@ class WebUser extends CWebUser
     {
         if (empty($this->id)) {
             // Not identified => no rights
+
             return false;
         }
+
         $roles = $this->getState('roles');
 
         foreach($roles as $role){
@@ -21,8 +23,11 @@ class WebUser extends CWebUser
                 return true; // admin role has access to everything
             }   
             // allow access if the operation request is the current user's role
-            return ($operation === $role);
+            if($role === $operation){
+                return true;
+            }
         }
+        return false;
         
     }
 }

@@ -28,7 +28,7 @@ class DocumentosPDFController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('geraPDF'),
+				'actions'=>array('geraPDF','geraProcessoDisciplinar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -267,6 +267,278 @@ class DocumentosPDFController extends Controller
 			$this->render('//dDocumento/createSure',array($model
 			
 			));
+			
+		}
+			
+	}
+
+	public function cabecalhoProcDisciplinar($model){
+
+		
+
+	    $numeracao = str_pad(($model->CDProcessoDisciplinar), 3, "0", STR_PAD_LEFT);
+
+		$this->PDF->Ln(5);
+		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','PROCESSO DISCIPLINAR DISCENTE'),0, 1, 'C');
+		$this->PDF->Ln(2);
+		$this->PDF->SetFont("Verdana", "", 12 ,"UTF-8");
+		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','Processo: PDD-'.$numeracao),0, 1, 'R');
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+
+		
+
+	}
+
+	public function cabecalhoIdentificacao($model){
+
+	    $criteria = new CDbCriteria();
+		$criteria->compare('Aluno_CDAluno',$model->relAluno->CDAluno);
+		$modelAT = AlunoTecnico::model()->find($criteria);
+		$modelAG = AlunoGraduacao::model()->find($criteria);
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('Servidor_CDServidor',$model->ServidorProcesso);
+		$modelTA = TecnicoAdministrativo::model()->find($criteria);
+		$modelProf = Professor::model()->find($criteria);
+
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','1) Identificação:') , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Relator:') , 0, 0, 'R');
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->relServidorProcesso->NMServidor) , 0, 0, 'L');
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Cargo:') , 0, 0, 'R');
+		$this->PDF->SetFont("Verdana", "", 9,"UTF-8");
+		if(is_null($modelTA)){
+			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1','Professor') , 0, 1, 'L');
+		}
+		else{
+			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelTA->relCargo->NMCargo) , 0, 1, 'L');
+		}
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Discente envolvido:') , 0, 0, 'R');
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->relAluno->NMAluno) , 0, 0, 'L');
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Data da ocorrência:') , 0, 0, 'R');
+		$this->PDF->SetFont("Verdana", "", 9,"UTF-8");
+		if($model->DataOcorrencia != ''){
+				$Data = $model->DataOcorrencia;
+				$ar = explode('-', $Data);
+				$model->DataOcorrencia = $ar[2].'/'.$ar[1].'/'.$ar[0];
+			}
+		$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$model->DataOcorrencia) , 0, 1, 'L');
+		
+
+		if(!is_null($modelAT)){
+			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+			$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Turma:') , 0, 0, 'R');
+			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+			$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAT->relTurma->NMTurma) , 0, 0, 'L');
+			$this->PDF->SetFont("Verdana", "B", 9,"UTF-8");
+			$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
+			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAT->relCurso->NMCurso) , 0, 1, 'L');
+				
+		}
+		else{
+			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+			$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
+			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+			$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAG->relCurso->NMCurso) , 0, 0, 'L');
+			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+			$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Período:') , 0, 0, 'R');
+			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAG->Periodo) , 0, 1, 'L');
+			}
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+		
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','2) Descrição da ocorrência:') , 0, 1, 'L');
+		$this->PDF->Ln(2);
+
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->SetFillColor(255,255,255);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$model->DescricaoOcorrencia) , 0, 'J', false);
+
+		$this->PDF->setY(120);
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Ciência do discente: ________________________________________________________________') , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+
+	}
+
+	public function verificacaoReicidencias($model){
+
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','3) Verificação de reincidências:') , 0, 1, 'L');
+		$this->PDF->Ln(4);
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Não existe reincidência.') , 0, 1, 'C');
+		$this->PDF->Ln(4);
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Verificação realizada em '.date('d/m/Y').".") , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+
+	}
+
+	public function parecerComissao($model){
+
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','4) Parecer da Comissão Disciplinar Discente:') , 0, 1, 'L');
+		$this->PDF->Ln(2);
+
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->SetFillColor(255,255,255);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$model->ParecerComissao) , 0, 'J', false);
+		$this->PDF->setY(190);
+				$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(53, 4, iconv('utf-8','iso-8859-1','Sansão disciplinas aplicável: ') , 0, 0, 'L');
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->Cell(136, 4, iconv('utf-8','iso-8859-1',$model->relSansao->NMSansao) , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Parecer emitido em '.date('d/m/Y').".") , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+
+	}
+
+	public function parecerDiretor($model){
+
+		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','5) Parecer Conclusivo do Diretor de Campus:') , 0, 1, 'L');
+		$this->PDF->Ln(2);
+
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->SetFillColor(255,255,255);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$model->DescricaoParecer) , 0, 'J', false);
+		$this->PDF->setY(250);
+				$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		$this->PDF->Cell(61, 4, iconv('utf-8','iso-8859-1','Procede com o deferimento para: ') , 0, 0, 'L');
+		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		$this->PDF->Cell(136, 4, iconv('utf-8','iso-8859-1',$model->relSansaoDiretor->NMSansao) , 0, 1, 'L');
+		
+
+	}
+
+	public function dataAssinatura($model){
+
+		$dataDoc = explode('-', $model->DataDiretor);
+
+		$dia = explode(' ', $dataDoc[2]);
+
+		switch ($dataDoc[1]) {
+	        case "01":    $mes = "Janeiro";     break;
+	        case "02":    $mes = "Fevereiro";   break;
+	        case "03":    $mes = "Março";       break;
+	        case "04":    $mes = "Abril";       break;
+	        case "05":    $mes = "Maio";        break;
+	        case "06":    $mes = "Junho";       break;
+	        case "07":    $mes = "Julho";       break;
+	        case "08":    $mes = "Agosto";      break;
+	        case "09":    $mes = "Setembro";    break;
+	        case "10":    $mes = "Outubro";     break;
+	        case "11":    $mes = "Novembro";    break;
+	        case "12":    $mes = "Dezembro";    break; 
+	    }
+
+		$dataDoc = $dia[0]." de ".$mes." de ".$dataDoc[0];
+
+		$this->PDF->Ln(3);
+		$this->PDF->SetFont("Verdana", "", 10 ,"UTF-8");
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Timóteo, '.$dataDoc.".") , 0, 1, 'L');
+		$this->PDF->Ln(2);
+		
+		
+
+	}
+
+	public function assinaturaDocPD($model){
+
+		$idServidor = $model->ServidorDiretor;
+
+		$criteria = new CDbCriteria;
+		$criteria->compare('Servidor_CDServidor',$idServidor);
+	    $modelServ = DServidor::model()->find($criteria);
+
+	    $this->PDF->Ln(4);
+		$this->PDF->SetFont("Verdana", "", 10 ,"UTF-8");
+
+	    if(!is_null($modelServ)){
+	    	$assinatura = $modelServ->Assinatura;
+	    }  
+	    else{
+	    	$criteria = new CDbCriteria;
+			$criteria->compare('CDServidor',$idServidor);
+	    	$modelServ = Servidor::model()->find($criteria);
+	    	$assinatura = $modelServ->NMServidor;
+	    }
+	    //$assinatura = "<div align=\"center\">".$modelServ->Assinatura."</div>";
+	    $this->PDF->SetFillColor(255,255,255);
+		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$assinatura) , 0, 'R', false);
+		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
+
+	}
+
+
+
+
+
+	public function actionGeraProcessoDisciplinar(){
+
+		if(isset($_GET['id'])){
+
+			$id = $_GET['id'];
+			$criteria = new CDbCriteria;
+			$criteria->compare('CDProcessoDisciplinar',$id);
+	    	$model = DProcessoDisciplinar::model()->find($criteria);
+
+		}
+
+		$nomeDoc = "PDD-".$model->CDProcessoDisciplinar;
+
+		Yii::import('application.extensions.fpdf.*');
+		require('fpdf.php');
+		
+		$this->PDF = new FPDF("P","mm","A4");
+
+		$this->PDF->AddFont('Verdana','','verdana.php');
+		$this->PDF->AddFont('Verdana','B','verdanab.php');
+		
+		$this->Cabecalho();
+
+		$this->cabecalhoProcDisciplinar($model);
+
+		$this->cabecalhoIdentificacao($model);
+
+		$this->verificacaoReicidencias($model);
+
+		$this->parecerComissao($model);
+
+		$this->parecerDiretor($model);
+
+		$this->dataAssinatura($model);
+
+		$this->assinaturaDocPD($model);
+
+		
+		
+		
+		$tipo = "F";
+		if(!empty($_GET['idReq'])){
+			$tipo = "D";
+			$this->PDF->Output($nomeDoc.".pdf",$tipo);
+		}
+		else{
+
+			$tipo = "D";
+			$this->PDF->Output($nomeDoc.".pdf",$tipo);
 			
 		}
 			

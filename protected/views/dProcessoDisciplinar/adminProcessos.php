@@ -19,7 +19,7 @@ $('.search-form form').submit(function(){
 ?>
 
 <div id="titlePages">
-		Meus processos disciplinares
+		Processos Disciplinares
 </div>
 
 <?php 
@@ -38,7 +38,7 @@ $('.search-form form').submit(function(){
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 	'id'=>'dprocesso-disciplinar-grid',
 	'type'=>'striped bordered condensed',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->search('todos'),
 	'enableSorting'=>false,
 	'filter'=>$model,
 	'columns'=>array(
@@ -75,6 +75,12 @@ $('.search-form form').submit(function(){
 			'header'=>'Aluno',
 		),
 		array(
+			'name'=>'servidorNMServidor',
+			'value'=>'$data->relServidorProcesso->NMServidor',
+			'type'=>'text',
+			'header'=>'Relator',
+		),
+		array(
 			'name'=>'Situacao',
 			'value'=>'$data->situacaoProcesso($data->CDProcessoDisciplinar)',
 			'type'=>'text',
@@ -83,6 +89,7 @@ $('.search-form form').submit(function(){
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{view} {situacao} {update} {geraPDF} {delete}',
+			//'htmlOptions' => array('width'=>75),
 			'buttons' => array(
 			'situacao' => array(
 			            'label'=>'Analisar processo',
@@ -99,7 +106,7 @@ $('.search-form form').submit(function(){
 			),
 			'geraPDF' => array(
 				            'label'=>'Gerar PDF',
-							'url'=> 'Yii::app()->createUrl("DocumentosPDF/geraProcessoDisciplinar", array("idReq" => $data->CDProcessoDisciplinar))',
+							'url'=> 'Yii::app()->createUrl("DocumentosPDF/geraProcessoDisciplinar", array("id" => $data->CDProcessoDisciplinar))',
 							'imageUrl'=>Yii::app()->request->baseUrl
 							.'/images/pdf.png',
 				            'visible'=>'$data->visPDF($data->CDProcessoDisciplinar)',

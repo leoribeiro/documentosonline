@@ -15,6 +15,9 @@
  */
 class DProcessoDisciplinar extends CActiveRecord
 {
+	public $alunoNMAluno;
+	public $servidorNMServidor;
+	public $Situacao;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -41,11 +44,13 @@ class DProcessoDisciplinar extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('DataOcorrencia, DataCriacao, DescricaoOcorrencia, ParecerComissao, SansaoAplicavel, ParecerDiretor, DescricaoParecer', 'required'),
+			array('DataOcorrencia, DescricaoOcorrencia,ServidorProcesso,Aluno', 'required'),
 			array('SansaoAplicavel, ParecerDiretor', 'numerical', 'integerOnly'=>true),
+			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>4000),
+
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('CDProcessoDisciplinar, DataOcorrencia, DataCriacao, DescricaoOcorrencia, ParecerComissao, SansaoAplicavel, ParecerDiretor, DescricaoParecer', 'safe', 'on'=>'search'),
+			array('CDProcessoDisciplinar, DataOcorrencia, DataCriacao, DescricaoOcorrencia, ParecerComissao, SansaoAplicavel, ParecerDiretor, DescricaoParecer,ServidorProcesso,Aluno', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +62,13 @@ class DProcessoDisciplinar extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'relServidorProcesso' => array(self::BELONGS_TO, 'Servidor', 'ServidorProcesso'),
+			'relServidorComissao' => array(self::BELONGS_TO, 'Servidor', 'ServidorComissao'),
+			'relServidorDiretor' => array(self::BELONGS_TO, 'Servidor', 'ServidorDiretor'),
+			'relSansao' => array(self::BELONGS_TO, 'DSansaoAplicavel', 'SansaoAplicavel'),
+			'relSansaoDiretor' => array(self::BELONGS_TO, 'DSansaoAplicavel', 'ParecerDiretor'),
+
+			'relAluno' => array(self::BELONGS_TO, 'Aluno', 'Aluno'),
 		);
 	}
 
@@ -66,14 +78,17 @@ class DProcessoDisciplinar extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'CDProcessoDisciplinar' => 'Cdprocesso Disciplinar',
-			'DataOcorrencia' => 'Data Ocorrencia',
+			'CDProcessoDisciplinar' => 'Número',
+			'DataOcorrencia' => 'Data da ocorrência',
 			'DataCriacao' => 'Data Criacao',
-			'DescricaoOcorrencia' => 'Descricao Ocorrencia',
-			'ParecerComissao' => 'Parecer Comissao',
-			'SansaoAplicavel' => 'Sansao Aplicavel',
-			'ParecerDiretor' => 'Parecer Diretor',
-			'DescricaoParecer' => 'Descricao Parecer',
+			'DescricaoOcorrencia' => 'Descrição da ocorrência',
+			'ParecerComissao' => 'Parecer da Comissão Disciplinar Discente',
+			'SansaoAplicavel' => 'Sansão disciplinas aplicável',
+			'ParecerDiretor' => 'Procede com o deferimento para:',
+			'DescricaoParecer' => 'Descricao do parecer',
+			'ServidorProcesso' => 'Relator',
+			'Aluno' => 'Discente envolvido',
+			''
 		);
 	}
 
@@ -86,7 +101,23 @@ class DProcessoDisciplinar extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
+		$parametros = func_get_args();
+
 		$criteria=new CDbCriteria;
+
+		$valida = true;
+		if(isset($parametros[0]) && $parametros[0] == "todos"){
+			if(Yii::app()->user->checkAccess('ServidorDiretor')){
+				$valida = false;
+			}
+			if(Yii::app()->user->checkAccess('ServidorComissao')){
+				$valida = false;
+			}
+
+		}
+		if(Yii::app()->user->checkAccess('ServidorPD') && (Yii::app()->user->name != "admin") && $valida){
+			$criteria->compare('ServidorProcesso',Yii::app()->user->CDServidor);
+		}
 
 		$criteria->compare('CDProcessoDisciplinar',$this->CDProcessoDisciplinar);
 		$criteria->compare('DataOcorrencia',$this->DataOcorrencia,true);
@@ -101,4 +132,178 @@ class DProcessoDisciplinar extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+	// public function beforeSave() {
+
+	// 	if($this->DataOcorrencia != ''){
+	// 			$Data = $this->DataOcorrencia;
+	// 			$ar = explode('/', $Data);
+	// 			$this->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];				
+	// 	}
+
+	// 	return parent::beforeSave();
+	// }	
+
+	public function situacaoProcesso($CDProcesso){
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+
+	   $registro = DProcessoDisciplinar::model()->find($criteria);
+
+	   if(is_null($registro)){
+			return "Erro";
+	   }
+	   else{
+	   		if(empty($registro->ParecerDiretor) && empty($registro->ParecerComissao)){
+	   			return "Enviado";
+	   		}
+	   		if(!empty($registro->ParecerComissao) && empty($registro->ParecerDiretor)){
+	   			return "Analisado pela comissão disciplinar";
+	   		}
+	   		return "Concluído";	
+	   }
+	}
+
+	public function visProcesso($CDProcesso){
+
+	   if(Yii::app()->user->name == "admin")
+	   		return true;
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorProcesso',Yii::app()->user->CDServidor);
+
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servProcesso = false;
+	   if(!is_null($registroS)){
+	   		$servProcesso = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorComissao',Yii::app()->user->CDServidor);
+
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servComissao = false;
+	   if(!is_null($registroS)){
+	   		$servComissao = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorDiretor',Yii::app()->user->CDServidor);
+
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servDiretor = false;
+	   if(!is_null($registroS)){
+	   		$servDiretor = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+
+	   $registro = DProcessoDisciplinar::model()->find($criteria);
+
+	   if(is_null($registro)){
+			return false;
+	   }
+	   else{
+	   		if(empty($registro->ParecerComissao) && $servProcesso){
+	   			return true;
+	   		}
+	   		if(empty($registro->ParecerDiretor) && $servComissao){
+	   			return true;
+	   		}
+	   		if(!empty($registro->ParecerComissao) && $servDiretor){
+	   			return true;
+	   		}
+	   		return false;
+	   		
+	   }
+	}
+
+
+	public function visSituacao($CDProcesso){
+
+	   if(Yii::app()->user->name == "admin")
+	   		return false;
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorProcesso',Yii::app()->user->CDServidor);
+
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servProcesso = false;
+	   if(!is_null($registroS)){
+	   		$servProcesso = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorComissao',Yii::app()->user->CDServidor);
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servComissao = false;
+	   if(!is_null($registroS) || Yii::app()->user->checkAccess('ServidorComissao')){
+	   		$servComissao = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('ServidorDiretor',Yii::app()->user->CDServidor);
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+	   $registroS = DProcessoDisciplinar::model()->find($criteria);
+
+	   $servDiretor = false;
+	   if(!is_null($registroS) || Yii::app()->user->checkAccess('ServidorDiretor')){
+	   		$servDiretor = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+
+	   $registro = DProcessoDisciplinar::model()->find($criteria);
+
+	   if(is_null($registro)){
+			return false;
+	   }
+	   else{
+	   		if(empty($registro->ParecerDiretor) && $servComissao){
+	   			return true;
+	   		}
+	   		if(!empty($registro->ParecerComissao) && $servDiretor){
+	   			return true;
+	   		}
+	   		return false;
+	   		
+	   }
+	}
+
+	public function visPDF($CDProcesso){
+
+	   $servDiretor = false;
+	   if(Yii::app()->user->checkAccess('ServidorDiretor')){
+	   		$servDiretor = true;
+	   }
+
+	   $criteria = new CDbCriteria;
+	   $criteria->compare('CDProcessoDisciplinar',$CDProcesso);
+
+	   $registro = DProcessoDisciplinar::model()->find($criteria);
+
+	   if(is_null($registro)){
+			return false;
+	   }
+	   else{
+	   		if(!empty($registro->ParecerDiretor) && $servDiretor){
+	   			return true;
+	   		}
+	   		else if(!empty($registro->ParecerDiretor) && (Yii::app()->user->name == "admin")){
+	   			return true;
+	   		}
+	   		return false;
+	   		
+	   }
+	}
+
+
 }
