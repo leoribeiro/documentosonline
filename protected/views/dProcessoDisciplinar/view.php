@@ -1,6 +1,6 @@
 
 <div id="titlePages">
-		Processo Disciplinar número <?php echo $model->CDProcessoDisciplinar; ?>
+		Processo Disciplinar #<?php echo $model->CDProcessoDisciplinar; ?>
 </div>
 
 <script>

@@ -190,11 +190,14 @@ class DProcessoDisciplinarController extends Controller
 			$modelConf = DConfProcessoDisciplinar::model()->find();
 			$model->ServidorDiretor = $modelConf->Servidor_Comissao;
 			
-			if(empty($model->SansaoAplicavel) or empty($model->ParecerComissao)){
+			if(empty($model->SansaoAplicavel) or empty($model->ParecerComissao) or empty($model->reincidencia)){
 				if(empty($model->SansaoAplicavel))
 					$model->addError('SansaoAplicavel','Selecione alguma sansão.');
 				if(empty($model->ParecerComissao))
 					$model->addError('ParecerComissao','O parecer deve ser preenchido.');
+				if(empty($model->reincidencia)){
+					$model->addError('reincidencia','A reincidência deve ser preenchida.');
+				}
 			}
 			else{
 				if($model->save())

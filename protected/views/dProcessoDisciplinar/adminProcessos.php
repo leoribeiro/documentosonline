@@ -35,11 +35,19 @@ $('.search-form form').submit(function(){
 
 ?>
 
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php 
+	$dropSituacao = array();
+	$dropSituacao['Enviado'] = 'Enviado';
+	$dropSituacao['Analisado pela comissão disciplinar'] = 'Analisado pela comissão disciplinar';
+	$dropSituacao['Concluído'] = 'Concluído';
+
+
+	$this->widget('bootstrap.widgets.TbGridView', array(
 	'id'=>'dprocesso-disciplinar-grid',
 	'type'=>'striped bordered condensed',
 	'dataProvider'=>$model->search('todos'),
 	'enableSorting'=>false,
+	'afterAjaxUpdate' => 'reinstallDatePicker',
 	'filter'=>$model,
 	'columns'=>array(
 		'CDProcessoDisciplinar',
@@ -86,6 +94,7 @@ $('.search-form form').submit(function(){
 			'value'=>'$data->situacaoProcesso($data->CDProcessoDisciplinar)',
 			'type'=>'text',
 			'header'=>'Situação',
+			'filter'=>$dropSituacao,
 		),
 		array(
 			'class'=>'CButtonColumn',
@@ -115,4 +124,13 @@ $('.search-form form').submit(function(){
 			),
 		),
 	),
-)); ?>
+)); 
+
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {
+    $('#datepicker_for_due_date').datepicker();
+}
+");
+
+
+?>

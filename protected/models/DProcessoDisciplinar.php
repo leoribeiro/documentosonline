@@ -47,11 +47,12 @@ class DProcessoDisciplinar extends CActiveRecord
 			array('DataOcorrencia, DescricaoOcorrencia,ServidorProcesso,Aluno', 'required'),
 			array('SansaoAplicavel, ParecerDiretor', 'numerical', 'integerOnly'=>true),
 			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>4000),
+			array('reincidencia', 'length', 'max'=>3),
 			array('Aluno', 'length', 'max'=>60),
 
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('CDProcessoDisciplinar, DataOcorrencia, DataCriacao, DescricaoOcorrencia, ParecerComissao, SansaoAplicavel, ParecerDiretor, DescricaoParecer,ServidorProcesso,Aluno', 'safe', 'on'=>'search'),
+			array('CDProcessoDisciplinar, DataOcorrencia, DataCriacao, DescricaoOcorrencia, ParecerComissao, SansaoAplicavel, ParecerDiretor, DescricaoParecer,Situacao,ServidorProcesso,Aluno,servidorNMServidor', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,6 +91,7 @@ class DProcessoDisciplinar extends CActiveRecord
 			'Aluno' => 'Discente envolvido',
 			'relSansao.NMSansao' => 'Sansão disciplinas aplicável',
 			'relSansaoDiretor.NMSansao'=>'Procede com o deferimento para',
+			'reincidencia'=>'O aluno é reincindênte?',
 		);
 	}
 
@@ -106,6 +108,10 @@ class DProcessoDisciplinar extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->with = array('relServidorProcesso');
+		
+		$criteria->together = true;
+
 		$valida = true;
 		if(isset($parametros[0]) && $parametros[0] == "todos"){
 			if(Yii::app()->user->checkAccess('ServidorDiretor')){
@@ -120,8 +126,33 @@ class DProcessoDisciplinar extends CActiveRecord
 			$criteria->compare('ServidorProcesso',Yii::app()->user->CDServidor);
 		}
 
+		$processosSituacao = array();
+		$modelAll = DProcessoDisciplinar::model()->findAll();
+		foreach($modelAll as $m){
+			if($this->situacaoProcesso($m->CDProcessoDisciplinar) == $this->Situacao){
+				$processosSituacao[] = $m->CDProcessoDisciplinar;
+			}
+		}
+		if(!empty($processosSituacao)){
+			$criteria->addInCondition('CDProcessoDisciplinar',$processosSituacao);
+		}
+
+		if(!empty($this->DataOcorrencia)){
+			$Data = $this->DataOcorrencia;
+				$ar = explode('/', $Data);
+				$this->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];
+				$criteria->compare('DataOcorrencia',$this->DataOcorrencia,true);
+				$this->DataOcorrencia = $Data;
+		}
+
+		
+
+
 		$criteria->compare('CDProcessoDisciplinar',$this->CDProcessoDisciplinar);
-		$criteria->compare('DataOcorrencia',$this->DataOcorrencia,true);
+		$criteria->compare('ServidorProcesso',$this->ServidorProcesso);
+		$criteria->compare('relServidorProcesso.NMServidor',$this->servidorNMServidor, true);
+		$criteria->compare('Aluno',$this->Aluno,true);
+		
 		$criteria->compare('DataCriacao',$this->DataCriacao,true);
 		$criteria->compare('DescricaoOcorrencia',$this->DescricaoOcorrencia,true);
 		$criteria->compare('ParecerComissao',$this->ParecerComissao,true);

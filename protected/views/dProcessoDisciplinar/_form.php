@@ -138,10 +138,20 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 	<?php 
 
-	if($vis){
+	if($comissao){
 		echo "</fieldset>";
 		echo "<fieldset><legend>Verificação de reincidência</legend>";
-		echo "<p class=\"text-success\">Não existe reincidência.</p>";
+		echo $form->radioButtonListRow($model, 'reincidencia', array(
+        'Sim'=>'Sim',
+        'Não'=>'Não',
+    ));
+	}
+
+	if($diretor){
+		echo "</fieldset>";
+		echo "<fieldset><legend>Verificação de reincidência</legend>";
+		echo $form->labelEx($model,'reincidencia'); 
+		echo $model->reincidencia;
 	}
 
 	?>

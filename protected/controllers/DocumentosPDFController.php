@@ -380,9 +380,11 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','3) Verificação de reincidências:') , 0, 1, 'L');
 		$this->PDF->Ln(4);
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Não existe reincidência.') , 0, 1, 'C');
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','O discente é reincidênte? '.$model->reincidencia) , 0, 1, 'L');
 		$this->PDF->Ln(4);
-		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Verificação realizada em '.date('d/m/Y').".") , 0, 1, 'L');
+		$DataComissao = strtotime($model->DataComissao);
+		$DataComissao = date('d/m/Y',$DataComissao);
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Verificação realizada em '.$DataComissao.".") , 0, 1, 'L');
 		$this->PDF->Ln(2);
 		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
 
@@ -403,7 +405,9 @@ class DocumentosPDFController extends Controller
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
 		$this->PDF->Cell(136, 4, iconv('utf-8','iso-8859-1',$model->relSansao->NMSansao) , 0, 1, 'L');
 		$this->PDF->Ln(2);
-		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Parecer emitido em '.date('d/m/Y').".") , 0, 1, 'L');
+		$DataComissao = strtotime($model->DataComissao);
+		$DataComissao = date('d/m/Y',$DataComissao);
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','Parecer emitido em '.$DataComissao.".") , 0, 1, 'L');
 		$this->PDF->Ln(2);
 		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
 
@@ -486,8 +490,19 @@ class DocumentosPDFController extends Controller
 
 	}
 
+	public function pagePD(){
 
 
+		$this->PDF->AddPage();                
+
+		$pagePD = YiiBase::getPathOfAlias('webroot')."/images/form-pd.png";
+		
+
+		$this->PDF->Image($pagePD,0,0,209.79,296.99);
+
+
+
+	}	
 
 
 	public function actionGeraProcessoDisciplinar(){
@@ -526,6 +541,8 @@ class DocumentosPDFController extends Controller
 		$this->dataAssinatura($model);
 
 		$this->assinaturaDocPD($model);
+
+		$this->pagePD();
 
 		
 		
