@@ -32,7 +32,8 @@
     			$criteria->compare('Responsavel',$model->Servidor_CDServidor);
     			$Data = $model->DataDocumento;
 				$ar = explode('-', $Data);
-				$model->DataDocumento = $ar[2].'/'.$ar[1].'/'.$ar[0];
+				if(sizeof($ar) > 1)
+					$model->DataDocumento = $ar[2].'/'.$ar[1].'/'.$ar[0];
     		}
     		
     		$modelos = DResponsavelDocumento::model()->findAll($criteria);
