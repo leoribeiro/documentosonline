@@ -32,11 +32,11 @@ class DProcessoDisciplinarController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','admin','adminProcessos','updateProcessoComissao','updateProcesso','updateProcessoDiretor'),
+				'actions'=>array('create','update','admin','adminProcessos','updateProcessoComissao','updateProcesso','updateProcessoDiretor','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('delete'),
+				'actions'=>array(),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -63,6 +63,7 @@ class DProcessoDisciplinarController extends Controller
 	public function actionCreate()
 	{
 		$model=new DProcessoDisciplinar;
+		$model->ServidorProcesso = Yii::app()->user->CDServidor;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,7 +71,7 @@ class DProcessoDisciplinarController extends Controller
 		if(isset($_POST['DProcessoDisciplinar']))
 		{
 			$model->attributes=$_POST['DProcessoDisciplinar'];
-			$model->ServidorProcesso = Yii::app()->user->CDServidor;
+			
 
 			if($model->DataOcorrencia != ''){
 				$Data = $model->DataOcorrencia;

@@ -19,10 +19,15 @@ return array(
 
 	// autoloading model and component classes
 	'import'=>array(
+		'RecursosHumanos.models.Servidor',
+		'RecursosHumanos.models.TecnicoAdministrativo',
+		'RecursosHumanos.models.Professor',
+		'RecursosHumanos.models.ProfessorEfetivo',
+		'RecursosHumanos.models.ProfessorSubstituto',
+		'RecursosHumanos.models.RH_ServidorStatus',
+		'RecursosHumanos.models.RH_Cargo',
 		'application.models.*',
 		'application.components.*',
-		'RecursosHumanos.models.*',
-		
 		'Requerimentos.models.Aluno',
 		'Requerimentos.models.AlunoTecnico',
 		'Requerimentos.models.AlunoGraduacao',

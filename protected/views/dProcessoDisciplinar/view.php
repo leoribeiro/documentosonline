@@ -1,33 +1,80 @@
-<?php
-/* @var $this DProcessoDisciplinarController */
-/* @var $model DProcessoDisciplinar */
 
-$this->breadcrumbs=array(
-	'Dprocesso Disciplinars'=>array('index'),
-	$model->CDProcessoDisciplinar,
-);
+<div id="titlePages">
+		Processo Disciplinar número <?php echo $model->CDProcessoDisciplinar; ?>
+</div>
 
-$this->menu=array(
-	array('label'=>'List DProcessoDisciplinar', 'url'=>array('index')),
-	array('label'=>'Create DProcessoDisciplinar', 'url'=>array('create')),
-	array('label'=>'Update DProcessoDisciplinar', 'url'=>array('update', 'id'=>$model->CDProcessoDisciplinar)),
-	array('label'=>'Delete DProcessoDisciplinar', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->CDProcessoDisciplinar),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage DProcessoDisciplinar', 'url'=>array('admin')),
-);
-?>
-
-<h1>View DProcessoDisciplinar #<?php echo $model->CDProcessoDisciplinar; ?></h1>
+<script>
+function goBack()
+  {
+  window.history.back()
+  }
+</script>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'CDProcessoDisciplinar',
-		'DataOcorrencia',
-		'DataCriacao',
+		array(
+				'label'=>'Data da Ocorrência',
+		        'type'=>'raw',
+		        'value'=>@strftime('%d/%m/%Y', @strtotime($model->DataOcorrencia)),
+		),
+		//'DataOcorrencia',
+		//'DataCriacao',
 		'DescricaoOcorrencia',
-		'ParecerComissao',
-		'SansaoAplicavel',
-		'ParecerDiretor',
-		'DescricaoParecer',
 	),
+)); ?>
+<br />
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+
+		array(
+				'label'=>'Verificação de reincidências',
+		        'type'=>'raw',
+		        'value'=>'Não existe reincidência',
+		),
+
+	),
+)); ?>
+<br />
+<h4>Parecer da Comissão Disciplinar Discente</h4>
+<?php 
+	if(empty($model->ParecerComissao)){
+		echo "<i>Processo ainda não analisado pela comissão.</i><br />";
+	}
+	else{
+		$this->widget('zii.widgets.CDetailView', array(
+			'data'=>$model,
+			'attributes'=>array(
+				'relSansao.NMSansao',
+				'ParecerComissao',
+			),
+		));
+	}	
+	 ?>
+<br />
+
+<h4>Parecer Conclusivo do Diretor de Campus</h4>
+<?php 
+	if(empty($model->DescricaoParecer)){
+		echo "<i>Processo ainda não analisado pelo diretor.</i><br />";
+	}
+	else{
+		$this->widget('zii.widgets.CDetailView', array(
+		'data'=>$model,
+		'attributes'=>array(
+
+			'relSansaoDiretor.NMSansao',
+			'DescricaoParecer',
+		),
+		)); 
+	}
+	?>
+<br />
+<?php $this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'Voltar',
+    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>null, // null, 'large', 'small' or 'mini'
+    'url'=>'javascript:goBack()',
 )); ?>

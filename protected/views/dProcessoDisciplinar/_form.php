@@ -44,12 +44,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php 
 			$criteria = new CDbCriteria();
 
-			if(!Yii::app()->user->checkAccess('ServidorPD')){
-				$criteria->compare('CDServidor',Yii::app()->user->CDServidor);	
-			}
-			else{
-				$criteria->compare('CDServidor',$model->ServidorProcesso);	
-			}
+			$criteria->compare('CDServidor',$model->ServidorProcesso);	
 			
 			$modelS = Servidor::model()->find($criteria);
 			echo $modelS->NMServidor; ?>
@@ -61,34 +56,35 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php echo $form->labelEx($model,'Aluno'); ?>
 		<?php
 		if(!$vis){
-			$modelA = Aluno::model()->
-	        findAll(array('order'=>'NMAluno'));
-	        $listaA = CHtml::listData($modelA,
-		    'CDAluno','NMAluno');
+			// $modelA = Aluno::model()->
+	  //       findAll(array('order'=>'NMAluno'));
+	  //       $listaA = CHtml::listData($modelA,
+		 //    'CDAluno','NMAluno');
 
-		    echo CHtml::activeDropDownList($model,'Aluno',$listaA,
-			array(
-			'data-placeholder'=>'Selecione o aluno',
-	  		'style'=>'width:400px',
-	  		'empty'=>'',
-	  		'class'=>'chzn-select'));
+		 //    echo CHtml::activeDropDownList($model,'Aluno',$listaA,
+			// array(
+			// 'data-placeholder'=>'Selecione o aluno',
+	  // 		'style'=>'width:400px',
+	  // 		'empty'=>'',
+	  // 		'class'=>'chzn-select'));
+			echo $form->textField($model,'Aluno',array('style'=>'width:300px'));
 		}
 		else{
-			echo $model->relAluno->NMAluno;
+			echo $model->Aluno;
 
-			$criteria = new CDbCriteria();
-			$criteria->compare('Aluno_CDAluno',$model->relAluno->CDAluno);
-			$modelAT = AlunoTecnico::model()->find($criteria);
-			$modelAG = AlunoGraduacao::model()->find($criteria);
+			// $criteria = new CDbCriteria();
+			// $criteria->compare('Aluno_CDAluno',$model->relAluno->CDAluno);
+			// $modelAT = AlunoTecnico::model()->find($criteria);
+			// $modelAG = AlunoGraduacao::model()->find($criteria);
 
-			if(!is_null($modelAT)){
-				echo "<br />".$modelAT->relTurma->NMTurma." - ";
-				echo $modelAT->relCurso->NMCurso;
-			}
-			else{
-				echo "<br />".$modelAG->relCurso->NMCurso;
-				echo " - ".$modelAG->Periodo." Período ";
-			}
+			// if(!is_null($modelAT)){
+			// 	echo "<br />".$modelAT->relTurma->NMTurma." - ";
+			// 	echo $modelAT->relCurso->NMCurso;
+			// }
+			// else{
+			// 	echo "<br />".$modelAG->relCurso->NMCurso;
+			// 	echo " - ".$modelAG->Periodo." Período ";
+			// }
 			
 		}
 			

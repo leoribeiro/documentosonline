@@ -68,12 +68,13 @@ $('.search-form form').submit(function(){
 	                )
 	           ), true),
 		),
-		array(
-			'name'=>'alunoNMAluno',
-			'value'=>'$data->relAluno->NMAluno',
-			'type'=>'text',
-			'header'=>'Aluno',
-		),
+		'Aluno',
+		// array(
+		// 	'name'=>'alunoNMAluno',
+		// 	'value'=>'$data->relAluno->NMAluno',
+		// 	'type'=>'text',
+		// 	'header'=>'Aluno',
+		// ),
 		array(
 			'name'=>'Situacao',
 			'value'=>'$data->situacaoProcesso($data->CDProcessoDisciplinar)',

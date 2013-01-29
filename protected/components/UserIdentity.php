@@ -116,30 +116,30 @@ class UserIdentity extends CUserIdentity
 
 						$roles = $this->getRules($servidor);
 
-
+						if(!empty($roles)){
+							$roles[] = 'visualizacao';
+							$this->errorCode = self::ERROR_NONE;
+						}
+						
 						if(!is_null($this->getPDDiretor($servidor))){
 							$roles[] = $this->getPDDiretor($servidor);
+							$this->errorCode = self::ERROR_NONE;
 						}
 
 						if(!is_null($this->getPDComissao($servidor))){
 							$roles[] = $this->getPDComissao($servidor);
+							$this->errorCode = self::ERROR_NONE;
 						}
 
 						if(!is_null($this->getAutorizadosPD($servidor))){
 							$roles[] = $this->getAutorizadosPD($servidor);
-						}
-
-						if(empty($roles)){
-							$roles[] = 'visualizacao';
-						}
-						else{
-							// setando as regras do usuario
-							$this->setState('roles', $roles); 
-
-							$this->setState('CDServidor', $servidor->CDServidor);
 							$this->errorCode = self::ERROR_NONE;
-						} 
+						}
 
+						// setando as regras do usuario
+						$this->setState('roles', $roles); 
+
+						$this->setState('CDServidor', $servidor->CDServidor);
 						
 				}
 

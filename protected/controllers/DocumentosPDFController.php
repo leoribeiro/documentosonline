@@ -293,10 +293,10 @@ class DocumentosPDFController extends Controller
 
 	public function cabecalhoIdentificacao($model){
 
-	    $criteria = new CDbCriteria();
-		$criteria->compare('Aluno_CDAluno',$model->relAluno->CDAluno);
-		$modelAT = AlunoTecnico::model()->find($criteria);
-		$modelAG = AlunoGraduacao::model()->find($criteria);
+	 //    $criteria = new CDbCriteria();
+		// $criteria->compare('Aluno_CDAluno',$model->relAluno->CDAluno);
+		// $modelAT = AlunoTecnico::model()->find($criteria);
+		// $modelAG = AlunoGraduacao::model()->find($criteria);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('Servidor_CDServidor',$model->ServidorProcesso);
@@ -322,7 +322,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
 		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Discente envolvido:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->relAluno->NMAluno) , 0, 0, 'L');
+		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->Aluno) , 0, 0, 'L');
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
 		$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Data da ocorrência:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9,"UTF-8");
@@ -334,27 +334,27 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$model->DataOcorrencia) , 0, 1, 'L');
 		
 
-		if(!is_null($modelAT)){
-			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-			$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Turma:') , 0, 0, 'R');
-			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-			$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAT->relTurma->NMTurma) , 0, 0, 'L');
-			$this->PDF->SetFont("Verdana", "B", 9,"UTF-8");
-			$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
-			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAT->relCurso->NMCurso) , 0, 1, 'L');
+		// if(!is_null($modelAT)){
+		// 	$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Turma:') , 0, 0, 'R');
+		// 	$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAT->relTurma->NMTurma) , 0, 0, 'L');
+		// 	$this->PDF->SetFont("Verdana", "B", 9,"UTF-8");
+		// 	$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
+		// 	$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAT->relCurso->NMCurso) , 0, 1, 'L');
 				
-		}
-		else{
-			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-			$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
-			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-			$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAG->relCurso->NMCurso) , 0, 0, 'L');
-			$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-			$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Período:') , 0, 0, 'R');
-			$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAG->Periodo) , 0, 1, 'L');
-			}
+		// }
+		// else{
+		// 	$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Curso:') , 0, 0, 'R');
+		// 	$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$modelAG->relCurso->NMCurso) , 0, 0, 'L');
+		// 	$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Período:') , 0, 0, 'R');
+		// 	$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
+		// 	$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelAG->Periodo) , 0, 1, 'L');
+		// 	}
 		$this->PDF->Ln(2);
 		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
 		

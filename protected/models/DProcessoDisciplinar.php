@@ -47,6 +47,7 @@ class DProcessoDisciplinar extends CActiveRecord
 			array('DataOcorrencia, DescricaoOcorrencia,ServidorProcesso,Aluno', 'required'),
 			array('SansaoAplicavel, ParecerDiretor', 'numerical', 'integerOnly'=>true),
 			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>4000),
+			array('Aluno', 'length', 'max'=>60),
 
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -68,7 +69,6 @@ class DProcessoDisciplinar extends CActiveRecord
 			'relSansao' => array(self::BELONGS_TO, 'DSansaoAplicavel', 'SansaoAplicavel'),
 			'relSansaoDiretor' => array(self::BELONGS_TO, 'DSansaoAplicavel', 'ParecerDiretor'),
 
-			'relAluno' => array(self::BELONGS_TO, 'Aluno', 'Aluno'),
 		);
 	}
 
@@ -84,11 +84,12 @@ class DProcessoDisciplinar extends CActiveRecord
 			'DescricaoOcorrencia' => 'Descrição da ocorrência',
 			'ParecerComissao' => 'Parecer da Comissão Disciplinar Discente',
 			'SansaoAplicavel' => 'Sansão disciplinas aplicável',
-			'ParecerDiretor' => 'Procede com o deferimento para:',
+			'ParecerDiretor' => 'Procede com o deferimento para',
 			'DescricaoParecer' => 'Descricao do parecer',
 			'ServidorProcesso' => 'Relator',
 			'Aluno' => 'Discente envolvido',
-			''
+			'relSansao.NMSansao' => 'Sansão disciplinas aplicável',
+			'relSansaoDiretor.NMSansao'=>'Procede com o deferimento para',
 		);
 	}
 
@@ -211,12 +212,12 @@ class DProcessoDisciplinar extends CActiveRecord
 	   		if(empty($registro->ParecerComissao) && $servProcesso){
 	   			return true;
 	   		}
-	   		if(empty($registro->ParecerDiretor) && $servComissao){
-	   			return true;
-	   		}
-	   		if(!empty($registro->ParecerComissao) && $servDiretor){
-	   			return true;
-	   		}
+	   		// if(empty($registro->ParecerDiretor) && $servComissao){
+	   		// 	return true;
+	   		// }
+	   		// if(!empty($registro->ParecerComissao) && $servDiretor){
+	   		// 	return true;
+	   		// }
 	   		return false;
 	   		
 	   }

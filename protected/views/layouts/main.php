@@ -37,7 +37,7 @@
 	$isGuest = Yii::app()->user->isGuest;
 	$isAdmin = (Yii::app()->user->name == "admin");
 	$isUserPriv = false;
-	if(!Yii::app()->user->checkAccess('visualizacao') && !$isGuest){
+	if(Yii::app()->user->checkAccess('visualizacao') && !$isGuest){
 		$isUserPriv = true;
 	}
 	$isDirector = false;
@@ -61,21 +61,23 @@
 	    'items'=>array(
 	        array('label'=>'Início', 'url'=>array('/Site/index'),'visible'=>!$isGuest),
 	        array('label'=>'Novo documento', 'url'=>array('/dDocumento/create'),'visible'=>($isUserPriv)),
-	        array('label'=>'Meus documentos', 'url'=>array('/dDocumento/admin'),'visible'=>($isUserPriv)),
-	        array('label'=>'Minha assinatura', 'url'=>array('/dDocumento/createAssin'),'visible'=>($isUserPriv)),
-	        array('label'=>'Processo Disciplinar', 'url'=>'#',
+	        array('label'=>'Novo processo', 'url'=>array('/dProcessoDisciplinar/create'),'visible'=>($isPD && !$isAdmin)),
+	        array('label'=>'Histórico', 'url'=>'#',
 	        	'items'=>array(
-	                         array('label'=>'Novo Processo Disciplinar', 'url'=>array('/dProcessoDisciplinar/create')),
-	                         array('label'=>'Meus Processos', 'url'=>array('/dProcessoDisciplinar/admin')),
-	                      ),'visible'=>($isPD && !$isAdmin)),
+	                         array('label'=>'Meus documentos', 'url'=>array('/dDocumento/admin'),'visible'=>($isUserPriv)),
+	                         array('label'=>'Meus Processos', 'url'=>array('/dProcessoDisciplinar/admin'),'visible'=>($isPD)),
+	                      ),'visible'=>(($isUserPriv || $isPD) && !$isAdmin)
+	        ),
+	        array('label'=>'Minha assinatura', 'url'=>array('/dDocumento/createAssin'),'visible'=>($isUserPriv)),
+	        
 	        array('label'=>'Administração', 'url'=>'#',
 	        	'items'=>array(
 	                         array('label'=>'Modelos de Documentos', 'url'=>array('/dModeloDocumento/admin')),
 	                         array('label'=>'Processo Disciplinar', 'url'=>array('/dConfProcessoDisciplinar/create')),
-	                      ),'visible'=>(!$isGuest && $isAdmin)),
+	        ),'visible'=>(!$isGuest && $isAdmin)),
 	        array('label'=>'Processos Disciplinares', 'url'=>array('/dProcessoDisciplinar/adminProcessos'),'visible'=>((($isDirector || $isComissao || $isAdmin)))),
 	        array('label'=>'Login', 'url'=>array('/Site/login'), 'visible'=>$isGuest),
-			array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/Site/logout'), 'visible'=>!$isGuest),
+			array('label'=>'Sair ('.Yii::app()->user->name.')', 'url'=>array('/Site/logout'), 'visible'=>!$isGuest),
 	    ),
 	)); ?>
 
