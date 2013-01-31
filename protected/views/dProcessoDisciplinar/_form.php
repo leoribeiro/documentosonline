@@ -128,6 +128,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php
 			if(!$vis){
 				echo $form->textArea($model, 'DescricaoOcorrencia', array('rows'=>5,'class'=>'span10'));
+				echo "<br />Ainda restam <span id=\"left\"></span> caracteres a serem digitados.";
 			} 
 			else{
 				echo $model->DescricaoOcorrencia;
@@ -175,6 +176,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		echo "<br /><br />";
 		echo $form->labelEx($model,'ParecerComissao');
 		echo $form->textArea($model,'ParecerComissao', array('rows'=>5,'class'=>'span10'));
+		echo "<br />Ainda restam <span id=\"left\"></span> caracteres a serem digitados.";
 		echo $form->error($model,'ParecerComissao');
 		
 		echo "</fieldset>";
@@ -201,6 +203,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		echo "<br /><br />";
 		echo $form->labelEx($model,'DescricaoParecer');
 		echo $form->textArea($model,'DescricaoParecer', array('rows'=>5,'class'=>'span10'));
+		echo "<br />Ainda restam <span id=\"left\"></span> caracteres a serem digitados.";
 		echo $form->error($model,'DescricaoParecer');
 		
 		echo "</fieldset>";
@@ -232,3 +235,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/images/jquery.limit-1.2.source.js"></script>
+<script type="text/javascript" >
+$('textarea').limit('500','#left');
+</script>

@@ -46,7 +46,7 @@ class DProcessoDisciplinar extends CActiveRecord
 		return array(
 			array('DataOcorrencia, DescricaoOcorrencia,ServidorProcesso,Aluno', 'required'),
 			array('SansaoAplicavel, ParecerDiretor', 'numerical', 'integerOnly'=>true),
-			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>4000),
+			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>500),
 			array('reincidencia', 'length', 'max'=>3),
 			array('Aluno', 'length', 'max'=>60),
 

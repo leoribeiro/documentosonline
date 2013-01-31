@@ -304,25 +304,25 @@ class DocumentosPDFController extends Controller
 		$modelProf = Professor::model()->find($criteria);
 
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','1) Identificação:') , 0, 1, 'L');
+		$this->PDF->Cell(32, 4, iconv('utf-8','iso-8859-1','1) Identificação dos envolvidos:') , 0, 1, 'L');
 		$this->PDF->Ln(2);
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Relator:') , 0, 0, 'R');
+		$this->PDF->Cell(20, 4, iconv('utf-8','iso-8859-1','Relator:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->relServidorProcesso->NMServidor) , 0, 0, 'L');
+		$this->PDF->Cell(90, 4, iconv('utf-8','iso-8859-1',$model->relServidorProcesso->NMServidor) , 0, 0, 'L');
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
 		$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Cargo:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9,"UTF-8");
 		if(is_null($modelTA)){
-			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1','Professor') , 0, 1, 'L');
+			$this->PDF->Cell(75, 4, iconv('utf-8','iso-8859-1','Professor') , 0, 1, 'L');
 		}
 		else{
 			$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$modelTA->relCargo->NMCargo) , 0, 1, 'L');
 		}
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Discente envolvido:') , 0, 0, 'R');
+		$this->PDF->Cell(20, 4, iconv('utf-8','iso-8859-1','Discente:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-		$this->PDF->Cell(91, 4, iconv('utf-8','iso-8859-1',$model->Aluno) , 0, 0, 'L');
+		$this->PDF->Cell(90, 4, iconv('utf-8','iso-8859-1',$model->Aluno) , 0, 0, 'L');
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
 		$this->PDF->Cell(18, 4, iconv('utf-8','iso-8859-1','Data da ocorrência:') , 0, 0, 'R');
 		$this->PDF->SetFont("Verdana", "", 9,"UTF-8");
@@ -331,7 +331,7 @@ class DocumentosPDFController extends Controller
 				$ar = explode('-', $Data);
 				$model->DataOcorrencia = $ar[2].'/'.$ar[1].'/'.$ar[0];
 			}
-		$this->PDF->Cell(65, 4, iconv('utf-8','iso-8859-1',$model->DataOcorrencia) , 0, 1, 'L');
+		$this->PDF->Cell(75, 4, iconv('utf-8','iso-8859-1',$model->DataOcorrencia) , 0, 1, 'L');
 		
 
 		// if(!is_null($modelAT)){
@@ -359,7 +359,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
 		
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','2) Descrição da ocorrência:') , 0, 1, 'L');
+		$this->PDF->Cell(32, 4, iconv('utf-8','iso-8859-1','2) Descrição da ocorrência:') , 0, 1, 'L');
 		$this->PDF->Ln(2);
 
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
@@ -380,7 +380,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','3) Verificação de reincidências:') , 0, 1, 'L');
 		$this->PDF->Ln(4);
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
-		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','O discente é reincidênte? '.$model->reincidencia) , 0, 1, 'L');
+		$this->PDF->Cell(183, 4, iconv('utf-8','iso-8859-1','O discente é reincidente? '.$model->reincidencia) , 0, 1, 'L');
 		$this->PDF->Ln(4);
 		$DataComissao = strtotime($model->DataComissao);
 		$DataComissao = date('d/m/Y',$DataComissao);
