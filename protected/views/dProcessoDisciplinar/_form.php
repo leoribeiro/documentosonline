@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/images/jquery.limit-1.2.source.js"></script>
 <?php
 	
 	if(isset($comissao)){
@@ -180,6 +181,12 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		echo $form->error($model,'ParecerComissao');
 		
 		echo "</fieldset>";
+
+		?>
+			<script type="text/javascript" >
+			$('#DProcessoDisciplinar_ParecerComissao').limit('800','#left');
+			</script>
+		<?
 	}
 
 	if($diretor){
@@ -203,10 +210,16 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		echo "<br /><br />";
 		echo $form->labelEx($model,'DescricaoParecer');
 		echo $form->textArea($model,'DescricaoParecer', array('rows'=>5,'class'=>'span10'));
-		echo "<br />Ainda restam <span id=\"left\"></span> caracteres a serem digitados.";
+		echo "<br />Ainda restam <span id=\"left2\"></span> caracteres a serem digitados.";
 		echo $form->error($model,'DescricaoParecer');
 		
 		echo "</fieldset>";
+
+		?>
+			<script type="text/javascript" >
+			$('#DProcessoDisciplinar_DescricaoParecer').limit('200','#left2');
+			</script>
+		<?
 	}
 
 	?>
@@ -235,7 +248,4 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/images/jquery.limit-1.2.source.js"></script>
-<script type="text/javascript" >
-$('textarea').limit('500','#left');
-</script>
+

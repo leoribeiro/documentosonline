@@ -12,9 +12,11 @@ function goBack()
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
+	'cssFile' => Yii::app()->baseUrl . '/css/gridReq.css',
 	'attributes'=>array(
 		'CDProcessoDisciplinar',
 		array(
+
 				'label'=>'Data da Ocorrência',
 		        'type'=>'raw',
 		        'value'=>@strftime('%d/%m/%Y', @strtotime($model->DataOcorrencia)),
@@ -24,19 +26,7 @@ function goBack()
 		'DescricaoOcorrencia',
 	),
 )); ?>
-<br />
-<?php $this->widget('zii.widgets.CDetailView', array(
-	'data'=>$model,
-	'attributes'=>array(
 
-		array(
-				'label'=>'Verificação de reincidências',
-		        'type'=>'raw',
-		        'value'=>'Não existe reincidência',
-		),
-
-	),
-)); ?>
 <br />
 <h4>Parecer da Comissão Disciplinar Discente</h4>
 <?php 
@@ -46,7 +36,13 @@ function goBack()
 	else{
 		$this->widget('zii.widgets.CDetailView', array(
 			'data'=>$model,
+			'cssFile' => Yii::app()->baseUrl . '/css/gridReq.css',
 			'attributes'=>array(
+				array(
+				'label'=>'Verificação de reincidências',
+		        'type'=>'raw',
+		        'value'=>'O discente é reincidente? <strong>'.$model->reincidencia.'</strong>',
+				),
 				'relSansao.NMSansao',
 				'ParecerComissao',
 			),

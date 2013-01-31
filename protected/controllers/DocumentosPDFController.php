@@ -399,7 +399,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
 		$this->PDF->SetFillColor(255,255,255);
 		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$model->ParecerComissao) , 0, 'J', false);
-		$this->PDF->setY(190);
+		$this->PDF->setY(210);
 				$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
 		$this->PDF->Cell(53, 4, iconv('utf-8','iso-8859-1','Sansão disciplinas aplicável: ') , 0, 0, 'L');
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
