@@ -97,7 +97,7 @@ $('.search-form form').submit(function(){
 		array(
 			'class'=>'CButtonColumn',
 			'template'=>'{view} {situacao} {update} {geraPDF} {delete}',
-			'htmlOptions' => array('width'=>75),
+			'htmlOptions' => array('width'=>78),
 			'buttons' => array(
 			'situacao' => array(
 			            'label'=>'Analisar processo',

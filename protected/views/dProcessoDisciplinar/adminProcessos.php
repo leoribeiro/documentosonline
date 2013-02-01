@@ -103,7 +103,7 @@ $('.search-form form').submit(function(){
 		),
 		array(
 			'class'=>'CButtonColumn',
-			'htmlOptions' => array('width'=>75),
+			'htmlOptions' => array('width'=>78),
 			'template'=>'{view} {situacao} {update} {geraPDF} {delete}',
 			//'htmlOptions' => array('width'=>75),
 			'buttons' => array(
