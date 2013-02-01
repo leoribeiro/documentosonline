@@ -129,7 +129,12 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		<?php
 			if(!$vis){
 				echo $form->textArea($model, 'DescricaoOcorrencia', array('rows'=>5,'class'=>'span10'));
-				echo "<br />Ainda restam <span id=\"left\"></span> caracteres a serem digitados.";
+				echo "<br />Ainda restam <span id=\"left3\"></span> caracteres a serem digitados.";
+				?>
+				<script type="text/javascript" >
+				$('#DProcessoDisciplinar_DescricaoOcorrencia').limit('500','#left3');
+				</script>
+				<?
 			} 
 			else{
 				echo $model->DescricaoOcorrencia;

@@ -61,6 +61,10 @@ class DDocumentoController extends Controller
 
 		$model = Yii::app()->session['modelDocumento'];
 
+		if(isset($_GET['editD'])){
+					$this->redirect(array('//DocumentosPDF/geraPDF','editD'=>'true'));
+		}
+
 		$this->redirect(array('//DocumentosPDF/geraPDF'));
 
 		
@@ -81,13 +85,17 @@ class DDocumentoController extends Controller
 		// deleta o arquivo.
 		unlink($nomeArquivo);
 
-		$criteria = new CDbCriteria();
-		$criteria->compare('CDModeloDocumento',$model->ModeloDocumento_CDModeloDocumento);
-		$modelMD = DModeloDocumento::model()->find($criteria);
 
-		$model->NumeroDocumento = ($modelMD->NumeracaoDocumento+1);
-		$modelMD->NumeracaoDocumento = $modelMD->NumeracaoDocumento+1;
-		$modelMD->save();
+		if(!isset($_GET['editD'])){
+			$criteria = new CDbCriteria();
+			$criteria->compare('CDModeloDocumento',$model->ModeloDocumento_CDModeloDocumento);
+			$modelMD = DModeloDocumento::model()->find($criteria);
+
+			$model->NumeroDocumento = ($modelMD->NumeracaoDocumento+1);
+			$modelMD->NumeracaoDocumento = $modelMD->NumeracaoDocumento+1;
+			$modelMD->save();
+		}
+
 		$model->Ano = date("Y");
 
 		$model->save();
@@ -147,6 +155,7 @@ class DDocumentoController extends Controller
 	 */
 	public function actionCreate()
 	{
+
 		$model=new DDocumento;
 
 
@@ -192,6 +201,9 @@ class DDocumentoController extends Controller
 				Yii::app()->session['modelDocumento'] = $model;
 
 				//$this->redirect(array('//DocumentosPDF/geraPDF'));
+				if(isset($_GET['editD'])){
+					$this->redirect(array('CreateSure','editD'=>'true'));
+				}
 				$this->redirect(array('CreateSure'));
 			}
 				

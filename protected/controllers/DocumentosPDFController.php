@@ -263,7 +263,9 @@ class DocumentosPDFController extends Controller
 			$this->PDF->Output("pdfs/".$tempoArq.".pdf",$tipo);
 			//$urlServer = "http://sistemas.timoteo.cefetmg.br";
 			//return $urlServer.Yii::app()->baseUrl."/pdfs/".$tempoArq.".pdf";
-
+			if(isset($_GET['editD'])){
+					$this->render('//dDocumento/createSure',array('editD'=>'true'));
+			}
 			$this->render('//dDocumento/createSure',array($model
 			
 			));

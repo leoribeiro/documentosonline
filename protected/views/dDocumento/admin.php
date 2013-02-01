@@ -117,7 +117,7 @@
 				),
 				'update' => array(
 				            'label'=>'Editar Documento',
-							'url'=> 'Yii::app()->createUrl("DDocumento/create", array("id" => $data->CDDocumento))',
+							'url'=> 'Yii::app()->createUrl("DDocumento/create", array("id" => $data->CDDocumento,"editD" => "true"))',
 							'visible'=>'((strtotime($data->DataCriacao) > subDayIntoDate(date("Ymd"),1)))',
 				),
 				),
