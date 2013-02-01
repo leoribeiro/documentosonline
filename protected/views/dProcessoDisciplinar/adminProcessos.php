@@ -50,7 +50,12 @@ $('.search-form form').submit(function(){
 	'afterAjaxUpdate' => 'reinstallDatePicker',
 	'filter'=>$model,
 	'columns'=>array(
-		'CDProcessoDisciplinar',
+		array(
+			'htmlOptions' => array('width'=>75),
+			'name'=>'CDProcessoDisciplinar',
+			'value'=>$model->CDProcessoDisciplinar,
+		),
+		
 		array(
 			'name'=>'DataOcorrencia',
 			'value'=>'date("d/m/Y",strtotime($data->DataOcorrencia))',
@@ -98,6 +103,7 @@ $('.search-form form').submit(function(){
 		),
 		array(
 			'class'=>'CButtonColumn',
+			'htmlOptions' => array('width'=>75),
 			'template'=>'{view} {situacao} {update} {geraPDF} {delete}',
 			//'htmlOptions' => array('width'=>75),
 			'buttons' => array(

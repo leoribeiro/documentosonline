@@ -278,7 +278,7 @@ class DProcessoDisciplinar extends CActiveRecord
 	   $registroS = DProcessoDisciplinar::model()->find($criteria);
 
 	   $servComissao = false;
-	   if(!is_null($registroS) || Yii::app()->user->checkAccess('ServidorComissao')){
+	   if(Yii::app()->user->checkAccess('ServidorComissao')){
 	   		$servComissao = true;
 	   }
 
@@ -288,7 +288,7 @@ class DProcessoDisciplinar extends CActiveRecord
 	   $registroS = DProcessoDisciplinar::model()->find($criteria);
 
 	   $servDiretor = false;
-	   if(!is_null($registroS) || Yii::app()->user->checkAccess('ServidorDiretor')){
+	   if(Yii::app()->user->checkAccess('ServidorDiretor')){
 	   		$servDiretor = true;
 	   }
 
