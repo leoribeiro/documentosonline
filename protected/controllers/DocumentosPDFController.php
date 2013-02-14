@@ -266,9 +266,12 @@ class DocumentosPDFController extends Controller
 			if(isset($_GET['editD'])){
 					$this->render('//dDocumento/createSure',array('editD'=>'true'));
 			}
-			$this->render('//dDocumento/createSure',array($model
+			else{
+					$this->render('//dDocumento/createSure',array($model
 			
 			));
+			}
+			
 			
 		}
 			
