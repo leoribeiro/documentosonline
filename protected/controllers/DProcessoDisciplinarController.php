@@ -388,17 +388,17 @@ class DProcessoDisciplinarController extends Controller
 	        if($tipo == 1){
 		        $body = '<p>Prezado membro da Comissão Disciplinar Discente, '.$comprimento.'. <br /><br />';
 				$body .= 'Existe um Processo Disciplinar Discente,
-				 nº XXXX, para análise e emissão de parecer.
+				 nº '.$model->CDProcessoDisciplinar.', para análise e emissão de parecer.
 				Favor acessar o Sistema de Documentos para finalizar essa demanda.</p>';
 	        }
 	        else{
 	        	$body = '<p>Prezado Diretor, '.$comprimento.'. <br /><br />';
 				$body .= 'Existe um Processo Disciplinar Discente, 
-				nº XXXX, para análise e emissão de parecer conclusivo.
+				nº '.$model->CDProcessoDisciplinar.', para análise e emissão de parecer conclusivo.
 				Favor acessar o Sistema de Documentos para 
 				finalizar essa demanda.</p>';
 	        }
-	        $body .= '<p><strong>Dados do processo:</strong></p><br /><br /> ';
+	        $body .= '<p><strong>Dados do processo:</strong></p>';
 	        $body .= '<p><strong>Aluno envolvido:</strong> ';
 	        $body .= $model->Aluno.'<br />';
 	        $body .= '<strong>Relator:</strong> ';
@@ -410,9 +410,9 @@ class DProcessoDisciplinarController extends Controller
 			$model->DataOcorrencia = $ar[2].'/'.$ar[1].'/'.$ar[0];
 
 	        $body .= $model->DataOcorrencia.'<br /></p>';
-	        $body .= '<p><br /><br /><a href="http://sistemas.timoteo.cefetmg.br/documentosoficiais/">Clique aqui</a> para entrar no sistema.</p>';
+	        $body .= '<p><br /><a href="http://sistemas.timoteo.cefetmg.br/documentosoficiais/">Clique aqui</a> para entrar no sistema.</p>';
 	        $body .= '<p>Este é um email automático. Por favor, não responda.</p>';
-			$body .='<p><br><br><br><br>NTI - Núcleo de Tecnologia da Informação - CEFET-MG Campus Timóteo</p>';
+			$body .='<p><br><br><br>NTI - Núcleo de Tecnologia da Informação - CEFET-MG Campus Timóteo</p>';
 
 			$message->setBody($body,'text/html');
 
