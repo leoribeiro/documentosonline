@@ -79,8 +79,11 @@ class DProcessoDisciplinarController extends Controller
 				$model->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];
 			}
 
-			if($model->save())
+			if($model->save()){
+				$this->EnviaEmail($model,1);
 				$this->redirect(array('admin','success'=>true));
+			}
+
 		}
 
 		$this->render('create',array(
@@ -111,8 +114,11 @@ class DProcessoDisciplinarController extends Controller
 				$model->DataOcorrencia = $ar[2].'-'.$ar[1].'-'.$ar[0];
 			}
 
-			if($model->save())
-				$this->redirect(array('admin','success'=>true));		}
+			if($model->save()){
+				$this->EnviaEmail($model,1);
+				$this->redirect(array('admin','success'=>true));
+			}
+		}
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -188,7 +194,7 @@ class DProcessoDisciplinarController extends Controller
 			
 			$model->DataComissao = new CDbExpression('NOW()');
 			$modelConf = DConfProcessoDisciplinar::model()->find();
-			$model->ServidorDiretor = $modelConf->Servidor_Comissao;
+			$model->ServidorComissao = $modelConf->Servidor_Comissao;
 			
 			if(empty($model->SansaoAplicavel) or empty($model->ParecerComissao) or empty($model->reincidencia)){
 				if(empty($model->SansaoAplicavel))
@@ -200,10 +206,12 @@ class DProcessoDisciplinarController extends Controller
 				}
 			}
 			else{
-				if($model->save())
+				if($model->save()){
+					$this->EnviaEmail($model,2);
 					$this->redirect(array('admin','success3'=>true));
+				}
+
 			}
-					
 		}
 
 		$this->render('updateComissaoDiretor',array(
@@ -320,5 +328,97 @@ class DProcessoDisciplinarController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+
+	private function EnviaEmail(){
+
+		$ipServer =  gethostbyname($_SERVER['SERVER_NAME']);
+		if($ipServer != "200.131.39.111"){
+			return true;
+		}
+
+		$parametros = func_get_args();
+
+		$model = $parametros[0];
+		$tipo = $parametros[1];
+
+		$emails = array();
+
+		$modelInfo = D_ConfProcessoDisciplinar::model()->find();
+		$idComissao = $modelInfo->Servidor_Comissao;
+		$idDiretor =  $modelInfo->Servidor_Diretor;
+
+		$criteria = new CDbCriteria;
+		if($tipo == 1){
+			$criteria->compare('CDServidor',$idComissao);
+		}
+		else{
+			$criteria->compare('CDServidor',$idDiretor);
+		}
+
+		$modelServ = Servidor::model()->find($criteria);
+		$email = $modelServ->EmailInstitucional;
+		$nome = $modelServ->NMServidor;
+
+		// trata professores para receber email.
+		if(func_num_args() == 3){
+			$emails[$email] = $nome;
+			$emails['leonardofribeiro@gmail.com'] = 'Leonardo Ribeiro';
+			$message = new YiiMailMessage();
+			$message->setTo($emails);
+	        $message->setFrom(array('nti@timoteo.cefetmg.br'));
+			$subject = 'Processo Disciplinar número '.$model->CDProcessoDisciplinar .' - CEFET-MG Timóteo';
+			// melhorar isso aqui, está horrível
+			$hora = date("H"); 
+			if($hora >= 0 && $hora < 6) { 
+				$comprimento = "boa madrugada"; 
+			} 
+			else if ($hora >= 6 && $hora < 12){ 
+				$comprimento = "bom dia"; 
+			} 
+			else if ($hora >= 12 && $hora < 18) { 
+				$comprimento = "boa tarde"; 
+			} 
+			else{ 
+				$comprimento = "boa noite"; }
+
+	        $message->setSubject($subject);
+
+	        if($tipo == 1){
+		        $body = '<p>Prezado membro da Comissão Disciplinar Discente, '.$comprimento.'. <br /><br />';
+				$body .= 'Existe um Processo Disciplinar Discente,
+				 nº XXXX, para análise e emissão de parecer.
+				Favor acessar o Sistema de Documentos para finalizar essa demanda.</p>';
+	        }
+	        else{
+	        	$body = '<p>Prezado Diretor, '.$comprimento.'. <br /><br />';
+				$body .= 'Existe um Processo Disciplinar Discente, 
+				nº XXXX, para análise e emissão de parecer conclusivo.
+				Favor acessar o Sistema de Documentos para 
+				finalizar essa demanda.</p>';
+	        }
+	        $body .= '<p><strong>Dados do processo:</strong></p><br /><br /> ';
+	        $body .= '<p><strong>Aluno envolvido:</strong> ';
+	        $body .= $model->relAluno->NMAluno.'<br />';
+	        $body .= '<strong>Relator:</strong> ';
+	        $body .= $model->relServidorProcesso->NMServidor.'<br />';
+	        $body .= '<strong>Data da ocorrência:</strong> ';
+
+	        $Data = $model->DataOcorrencia;
+			$ar = explode('-', $Data);
+			$model->DataOcorrencia = $ar[2].'/'.$ar[1].'/'.$ar[0];
+
+	        $body .= $model->DataOcorrencia.'<br /></p>';
+	        $body .= '<p><br /><br /><a href="http://sistemas.timoteo.cefetmg.br/documentosoficiais/">Clique aqui</a> para entrar no sistema.</p>';
+	        $body .= '<p>Este é um email automático. Por favor, não responda.</p>';
+			$body .='<p><br><br><br><br>NTI - Núcleo de Tecnologia da Informação - CEFET-MG Campus Timóteo</p>';
+
+			$message->setBody($body,'text/html');
+
+	        $numsent = Yii::app()->mail->send($message);
+
+		}
+
 	}
 }
