@@ -400,7 +400,7 @@ class DProcessoDisciplinarController extends Controller
 	        }
 	        $body .= '<p><strong>Dados do processo:</strong></p><br /><br /> ';
 	        $body .= '<p><strong>Aluno envolvido:</strong> ';
-	        $body .= $model->relAluno->NMAluno.'<br />';
+	        $body .= $model->Aluno.'<br />';
 	        $body .= '<strong>Relator:</strong> ';
 	        $body .= $model->relServidorProcesso->NMServidor.'<br />';
 	        $body .= '<strong>Data da ocorrência:</strong> ';
