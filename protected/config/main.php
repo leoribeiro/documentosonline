@@ -56,6 +56,21 @@ return array(
 	// application components
 	'components'=>array(
 
+		'mail' => array(
+		        'class' => 'application.extensions.yii-mail.YiiMail',
+		        'transportType'=>'smtp', /// case sensitive!
+		        'transportOptions'=>array(
+		            'host'=>'smtp.timoteo.cefetmg.br',
+		            'username'=>'nti_timoteo',
+		            'password'=>'7l)8p*jh',
+		            'port'=>'25',
+		            //'encryption'=>'ssl',
+		            ),
+		        'viewPath' => 'application.views.mail',
+		        'logging' => true,
+		        'dryRun' => false
+		  ),
+
 		'bootstrap'=>array(
         	'class'=>'ext.bootstrap.components.Bootstrap',
     	),
