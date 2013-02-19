@@ -362,7 +362,7 @@ class DProcessoDisciplinarController extends Controller
 		$nome = $modelServ->NMServidor;
 
 		// trata professores para receber email.
-		if(func_num_args() == 3){
+		if(func_num_args() == 2){
 			$emails[$email] = $nome;
 			$emails['leonardofribeiro@gmail.com'] = 'Leonardo Ribeiro';
 			$message = new YiiMailMessage();
