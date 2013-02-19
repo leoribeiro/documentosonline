@@ -345,7 +345,7 @@ class DProcessoDisciplinarController extends Controller
 
 		$emails = array();
 
-		$modelInfo = D_ConfProcessoDisciplinar::model()->find();
+		$modelInfo = DConfProcessoDisciplinar::model()->find();
 		$idComissao = $modelInfo->Servidor_Comissao;
 		$idDiretor =  $modelInfo->Servidor_Diretor;
 
