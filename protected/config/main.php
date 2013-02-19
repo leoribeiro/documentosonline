@@ -34,6 +34,7 @@ return array(
 		'Requerimentos.models.CursoGraduacao',
 		'Requerimentos.models.CursoTecnico',
 		'MarcacaoProva.models.Turma',
+		'application.extensions.yii-mail.*',
 
 		'application.extensions.CAdvancedArBehavior',
 	),
