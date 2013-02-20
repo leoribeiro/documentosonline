@@ -32,7 +32,7 @@ class DProcessoDisciplinarController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','admin','adminProcessos','updateProcessoComissao','updateProcesso','updateProcessoDiretor','delete'),
+				'actions'=>array('create','update','admin','adminProcessos','updateProcessoComissao','updateProcesso','updateProcessoDiretor','delete','info'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -54,6 +54,11 @@ class DProcessoDisciplinarController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+	}
+
+	public function actionInfo()
+	{
+		$this->render('info');
 	}
 
 	/**

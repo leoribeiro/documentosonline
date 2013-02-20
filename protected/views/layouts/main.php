@@ -31,7 +31,7 @@
 		</div>
 	</div><!-- header -->
 
-	<?php 
+	<?php
 
 	$user = Yii::app()->user;
 	$isGuest = Yii::app()->user->isGuest;
@@ -81,6 +81,7 @@
 	        ),'visible'=>(!$isGuest && $isAdmin)),
 	        array('label'=>'Processos da Direção', 'url'=>array('/dProcessoDisciplinar/adminProcessos'),'visible'=>($isDirector && !$isAdmin)),
 	        array('label'=>'Processos da Comissão', 'url'=>array('/dProcessoDisciplinar/adminProcessos'),'visible'=>($isComissao && !$isAdmin)),
+	        array('label'=>'Regime disciplinar', 'url'=>array('/dProcessoDisciplinar/info'),'visible'=>(($isDirector || $isComissao || $isPD) && !$isAdmin)),
 	        
 	        array('label'=>'Login', 'url'=>array('/Site/login'), 'visible'=>$isGuest),
 			array('label'=>'Sair ('.Yii::app()->user->name.')', 'url'=>array('/Site/logout'), 'visible'=>!$isGuest),
