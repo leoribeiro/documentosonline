@@ -232,7 +232,7 @@ class DocumentosPDFController extends Controller
 		
 		$this->Cabecalho();
 
-		if(isset($_GET['idReq'])){
+		if(isset($_GET['idReq']) or isset($_GET['editD'])){
 			$nomeDoc = $this->tipoDocumento($model);
 		}
 		else{
