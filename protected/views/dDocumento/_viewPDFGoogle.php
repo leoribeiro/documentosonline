@@ -3,7 +3,7 @@
 
 <?php
 
-    $ipServerNTI = "200.131.39.111";
+    $ipServerNTI = "200.131.39.62";
 	$ipServer = gethostbyname($_SERVER['SERVER_NAME']);
 	if($ipServer == $ipServerNTI){
 		$tempoArq = Yii::app()->session['tempoArq'];
