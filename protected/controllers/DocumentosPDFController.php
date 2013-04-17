@@ -44,10 +44,10 @@ class DocumentosPDFController extends Controller
 	public function Cabecalho(){
 
 		
-		$this->PDF->SetLeftMargin(15);
+		$this->PDF->SetLeftMargin(19);
 		$this->PDF->SetRightMargin(13);
 		$this->PDF->SetTopMargin(10);
-		$this->PDF->SetAutoPageBreak(1,0);
+		$this->PDF->SetAutoPageBreak(1);
 
 		$this->PDF->Open();                    
 		$this->PDF->AddPage();                
@@ -55,7 +55,7 @@ class DocumentosPDFController extends Controller
 		$brasao = YiiBase::getPathOfAlias('webroot')."/images/brasao.jpg";
 		
 
-		$this->PDF->Image($brasao,99,7,17.29,18.7);
+		$this->PDF->Image($brasao,103,7,17.29,18.7);
 		
 		$this->PDF->Ln(17);
 		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
