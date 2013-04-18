@@ -40,23 +40,20 @@ class DocumentosPDFController extends Controller
 			),
 		);
 	}
-	
+
 	public function Cabecalho(){
 
-		
 		$this->PDF->SetLeftMargin(19);
 		$this->PDF->SetRightMargin(13);
 		$this->PDF->SetTopMargin(10);
-		$this->PDF->SetAutoPageBreak(1);
+		$this->PDF->SetAutoPageBreak(1,8);
 
-		$this->PDF->Open();                    
-		$this->PDF->AddPage();                
+		$this->PDF->Open();
+		$this->PDF->AddPage();
 
 		$brasao = YiiBase::getPathOfAlias('webroot')."/images/brasao.jpg";
-		
 
 		$this->PDF->Image($brasao,103,7,17.29,18.7);
-		
 		$this->PDF->Ln(17);
 		$this->PDF->SetFont("Verdana", "B", 12 ,"UTF-8");
 		$this->PDF->Cell(183, 5,iconv('utf-8','iso-8859-1','SERVIÇO PÚBLICO FEDERAL'),0, 1, 'C');
