@@ -67,7 +67,6 @@ class DDocumentoController extends Controller
 
 		$this->redirect(array('//DocumentosPDF/geraPDF'));
 
-		
 
 	}
 
@@ -75,7 +74,7 @@ class DDocumentoController extends Controller
 
 		$model = Yii::app()->session['modelDocumento'];
 		unset(Yii::app()->session['modelDocumento']);
-		
+
 
 		$tempoArq = Yii::app()->session['tempoArq'];
 		unset(Yii::app()->session['tempoArq']);
@@ -280,7 +279,7 @@ class DDocumentoController extends Controller
             Yii::app()->user->setState('pageSize',(int)$_GET['pageSize']);
             unset($_GET['pageSize']);
 		}
-		
+
 		$model=new DDocumento('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['DDocumento']))

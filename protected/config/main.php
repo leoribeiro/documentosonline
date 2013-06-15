@@ -1,14 +1,25 @@
 <?php
 
-// uncomment the following to define a path alias
-// Yii::setPathOfAlias('local','path/to/local-folder');
+require_once(dirname(dirname(__FILE__)).'/components/ConfigApp.php');
 
-// This is the main Web application configuration. Any writable
-// CWebApplication properties can be configured here.
+$configPam = new ConfigApp();
+$host = $configPam->host;
+$usuario = $configPam->usuario;
+$password = $configPam->password;
+$basedados = $configPam->basedados;
+$smtp = $configPam->smtp;
+$userSmtp = $configPam->userSmtp;
+$passSmtp = $configPam->passSmtp;
+
+
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
+
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Sistema de Documentos',
 	'language' => 'pt_br',
+	'defaultController'=>'site',
 	'sourceLanguage' => 'pt_br',
 
 	// preloading 'log' component
@@ -41,7 +52,6 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'123',
@@ -51,7 +61,6 @@ return array(
             	'bootstrap.gii',
         	),
 		),
-		
 	),
 
 	// application components
@@ -61,9 +70,9 @@ return array(
 		        'class' => 'application.extensions.yii-mail.YiiMail',
 		        'transportType'=>'smtp', /// case sensitive!
 		        'transportOptions'=>array(
-		            'host'=>'smtp.timoteo.cefetmg.br',
-		            'username'=>'nti_timoteo',
-		            'password'=>'7l)8p*jh',
+		            'host'=>$smtp,
+		            'username'=>$userSmtp,
+		            'password'=>$passSmtp,
 		            'port'=>'25',
 		            //'encryption'=>'ssl',
 		            ),
@@ -73,8 +82,8 @@ return array(
 		  ),
 
 		'bootstrap'=>array(
-        	'class'=>'ext.bootstrap.components.Bootstrap',
-    	),
+            'class'=>'bootstrap.components.Bootstrap',
+        ),
 
 		'user'=>array(
 			// enable cookie-based authentication
@@ -91,23 +100,22 @@ return array(
 					'<action:(login|logout|page|contact)>' => 'site/<action>',
 				),
 		     'showScriptName'=>false,
-		     //'caseSensitive'=>false, 
-      
+
 		),
 
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=ntiaplicacoes',
+			'connectionString' => 'mysql:host='.$host.';dbname='.$basedados,
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'n2t0i11',
+			'username' => $usuario,
+			'password' => $password,
 			'charset' => 'utf8',
 		),
-		
+
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
 		),
-		
+
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

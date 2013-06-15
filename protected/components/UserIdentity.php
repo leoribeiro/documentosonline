@@ -7,29 +7,30 @@
  */
 class UserIdentity extends CUserIdentity
 {
-	private $users=array(
-			// username => password
-			'admin'=>'amanha eh um bel0 dia',
-	);
+	private $configPam;
+	private $users;
 
 	public function validaAdmin(){
+		$this->configPam = new ConfigApp();
+		$this->users=array(
+			'admin'=>$this->configPam->passAdmin,
+		);
 		if(isset($this->users[$this->username])){
 			if($this->users[$this->username]==$this->password){
 				$this->errorCode=self::ERROR_NONE;
 				$roles = array('admin');
-				$this->setState('roles', $roles); 
-				return true;	
+				$this->setState('roles', $roles);
+				return true;
 			}
 			else{
 				$this->errorCode = self::ERROR_PASSWORD_INVALID;
-			}	
+			}
 		}
 		return false;
 	}
 
 	public function getRules($servidor){
 		$records = DResponsavelDocumento::model()->findAllByAttributes(array('Responsavel'=>$servidor->CDServidor));
-				
 		$id_ModelosDocumentos = array();
 
 		foreach($records as $record){
@@ -120,7 +121,7 @@ class UserIdentity extends CUserIdentity
 							$roles[] = 'visualizacao';
 							$this->errorCode = self::ERROR_NONE;
 						}
-						
+
 						if(!is_null($this->getPDDiretor($servidor))){
 							$roles[] = $this->getPDDiretor($servidor);
 							$this->errorCode = self::ERROR_NONE;
@@ -137,15 +138,15 @@ class UserIdentity extends CUserIdentity
 						}
 
 						// setando as regras do usuario
-						$this->setState('roles', $roles); 
+						$this->setState('roles', $roles);
 
 						$this->setState('CDServidor', $servidor->CDServidor);
-						
+
 				}
 
 			}
 		}
-		
+
 		return !$this->errorCode;
 	}
 }
