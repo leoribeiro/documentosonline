@@ -370,7 +370,7 @@ class DocumentosPDFController extends Controller
 
 		$this->PDF->setY(120);
 		$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Ciência do discente: ________________________________________________________________') , 0, 1, 'L');
+		$this->PDF->Cell(36, 4, iconv('utf-8','iso-8859-1','Ciência do discente ou responsável: ____________________________________________________') , 0, 1, 'L');
 		$this->PDF->Ln(2);
 		$this->PDF->Cell(183, 2,iconv('utf-8','iso-8859-1',''),'T', 1, 'R');
 
@@ -403,7 +403,7 @@ class DocumentosPDFController extends Controller
 		$this->PDF->MultiCell(183, 5, iconv('utf-8','iso-8859-1//TRANSLIT',$model->ParecerComissao) , 0, 'J', false);
 		$this->PDF->setY(210);
 				$this->PDF->SetFont("Verdana", "B", 9 ,"UTF-8");
-		$this->PDF->Cell(53, 4, iconv('utf-8','iso-8859-1','Sansão disciplinas aplicável: ') , 0, 0, 'L');
+		$this->PDF->Cell(53, 4, iconv('utf-8','iso-8859-1','Sansão disciplinar aplicável: ') , 0, 0, 'L');
 		$this->PDF->SetFont("Verdana", "", 9 ,"UTF-8");
 		$this->PDF->Cell(136, 4, iconv('utf-8','iso-8859-1',$model->relSansao->NMSansao) , 0, 1, 'L');
 		$this->PDF->Ln(2);

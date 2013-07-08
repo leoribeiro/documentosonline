@@ -86,7 +86,7 @@ class DProcessoDisciplinar extends CActiveRecord
 			'DataCriacao' => 'Data Criacao',
 			'DescricaoOcorrencia' => 'Descrição da ocorrência',
 			'ParecerComissao' => 'Parecer da Comissão Disciplinar Discente',
-			'SansaoAplicavel' => 'Sansão disciplinas aplicável',
+			'SansaoAplicavel' => 'Sansão disciplinar aplicável',
 			'ParecerDiretor' => 'Procede com o deferimento para',
 			'DescricaoParecer' => 'Descricao do parecer',
 			'ServidorProcesso' => 'Relator',
