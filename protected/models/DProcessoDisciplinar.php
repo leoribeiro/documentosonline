@@ -46,9 +46,9 @@ class DProcessoDisciplinar extends CActiveRecord
 		return array(
 			array('DataOcorrencia, DescricaoOcorrencia,ServidorProcesso,Aluno', 'required'),
 			array('SansaoAplicavel, ParecerDiretor', 'numerical', 'integerOnly'=>true),
-			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>800),
+			array('ParecerComissao,DescricaoParecer', 'length', 'max'=>950),
 			array('DescricaoOcorrencia', 'length', 'max'=>500),
-			array('DescricaoParecer', 'length', 'max'=>200),
+			array('DescricaoParecer', 'length', 'max'=>50),
 			array('reincidencia', 'length', 'max'=>3),
 			array('Aluno', 'length', 'max'=>60),
 
@@ -91,7 +91,7 @@ class DProcessoDisciplinar extends CActiveRecord
 			'DescricaoParecer' => 'Descricao do parecer',
 			'ServidorProcesso' => 'Relator',
 			'Aluno' => 'Discente envolvido',
-			'relSansao.NMSansao' => 'Sansão disciplinas aplicável',
+			'relSansao.NMSansao' => 'Sansão disciplinar aplicável',
 			'relSansaoDiretor.NMSansao'=>'Procede com o deferimento para',
 			'reincidencia'=>'O aluno é reincindênte?',
 		);

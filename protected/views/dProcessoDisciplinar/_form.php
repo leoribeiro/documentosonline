@@ -189,7 +189,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 		?>
 			<script type="text/javascript" >
-			$('#DProcessoDisciplinar_ParecerComissao').limit('800','#left');
+			$('#DProcessoDisciplinar_ParecerComissao').limit('950','#left');
 			</script>
 		<?
 	}
@@ -222,7 +222,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 		?>
 			<script type="text/javascript" >
-			$('#DProcessoDisciplinar_DescricaoParecer').limit('200','#left2');
+			$('#DProcessoDisciplinar_DescricaoParecer').limit('50','#left2');
 			</script>
 		<?
 	}
